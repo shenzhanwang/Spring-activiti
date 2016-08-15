@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/mvc
+	http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-4.0.xsd">
+	
+
+<context:component-scan base-package="controller" />
+<!-- 处理请求时返回json字符串的中文乱码问题 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+<!--配置拦截器, 多个拦截器,顺序执行 -->  
+<mvc:interceptors>    
+    <mvc:interceptor>    
+        <!-- 匹配的是url路径， 如果不配置或/**,将拦截所有的Controller -->  
+        <mvc:mapping path="/**" />  
+        <mvc:exclude-mapping path="/login" />  
+        <mvc:exclude-mapping path="/authImg"/>
+        <mvc:exclude-mapping path="/plugins/bootstrap/bootstrap.css"/>
+        <mvc:exclude-mapping path="/css/style_v1.css"/>
+        <mvc:exclude-mapping path="/loginvalidate"/>
+        <bean class="interceptor.LoginIntercepter"></bean>    
+    </mvc:interceptor>  
+    <!-- 当设置多个拦截器时，先按顺序调用preHandle方法，然后逆序调用每个拦截器的postHandle和afterCompletion方法 -->  
+</mvc:interceptors>
+<!-- 静态资源访问（不拦截此目录下的东西的访问） -->  
+<mvc:resources location="/js/"  mapping="/js/**" />  
+<mvc:resources location="/css/"  mapping="/css/**" />  
+<mvc:resources location="/plugins/"  mapping="/plugins/**" /> 
+<mvc:resources location="/img/"  mapping="/img/**" /> 
+<mvc:resources location="/fonts/"  mapping="/fonts/**" /> 
+<!-- 页面转向解析 -->
+<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+	<property name="prefix" value="/WEB-INF/content/" />
+	<property name="suffix" value=".jsp" />
+</bean>	
+<!-- 文件上传 -->
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+</bean>
+ <!-- 扫描文件（自动将servicec层注入） -->
+<context:component-scan base-package="service.impl"/>
+</beans>
