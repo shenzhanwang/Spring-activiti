@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:p="http://www.springframework.org/schema/p"
+  xmlns:context="http://www.springframework.org/schema/context"
+  xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:util="http://www.springframework.org/schema/util"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.2.xsd
+    http://www.springframework.org/schema/tx
+    http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+    http://www.springframework.org/schema/util 
+    http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close"
+		p:driverClass="com.mysql.jdbc.Driver"
+		p:jdbcUrl="jdbc:mysql://localhost:3306/sakila"
+		p:user="root"
+		p:password="1234"
+		p:maxPoolSize="40"
+		p:minPoolSize="2"
+		p:initialPoolSize="2"
+		p:maxIdleTime="30"/>
+    
+    <!-- mybatis文件配置，扫描所有mapper文件 -->
+      <bean id="sqlSessionFactory"
+          class="org.mybatis.spring.SqlSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:configLocation="classpath:conf/mybatis-config.xml"
+          p:mapperLocations="classpath:mapper/*.xml"/> <!-- configLocation为mybatis属性 mapperLocations为所有mapper-->
+      
+   <!-- spring与mybatis整合配置，扫描所有mapper -->
+ <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+        p:basePackage="mapper" 
+        p:sqlSessionFactoryBeanName="sqlSessionFactory"/>
+ 
+   <!-- 对数据源进行事务管理 -->
+  <bean id="transactionManager" 
+        class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+        p:dataSource-ref="dataSource"/>
+        
+    <!-- 配置事务增强处理Bean,指定事务管理器 -->
+<tx:advice id="txAdvice" transaction-manager="transactionManager">
+	<!-- 用于配置详细的事务定义 -->
+	<tx:attributes>
+		<!-- 所有以'get'开头的方法是read-only的 -->
+		<tx:method name="get*" read-only="true"/>
+		<!-- 其他方法使用默认的事务设置，指定超时时长为5秒 -->
+		<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED" timeout="5"/>
+	</tx:attributes>
+</tx:advice>
+<!-- AOP配置的元素 -->
+<aop:config>
+	<aop:pointcut id="appPointcut" expression="execution(* service.impl.*Impl.*(..))"/>
+	<!-- 指定在myPointcut切入点应用txAdvice事务增强处理 -->
+	<aop:advisor advice-ref="txAdvice" pointcut-ref="appPointcut"/>
+</aop:config>
+        
+</beans>
