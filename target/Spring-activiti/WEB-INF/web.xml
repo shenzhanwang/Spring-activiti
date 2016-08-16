@@ -7,7 +7,6 @@
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
-		classpath:conf/spring.xml;
 		classpath:conf/spring-mybatis.xml
 		classpath:conf/spring-activiti.xml
 		</param-value>

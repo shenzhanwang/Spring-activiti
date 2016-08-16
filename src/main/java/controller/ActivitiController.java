@@ -73,7 +73,7 @@ public class ActivitiController {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return "activiti/processlist";
+		return "index";
 	}
 	
 	@RequestMapping("/getprocesslists")

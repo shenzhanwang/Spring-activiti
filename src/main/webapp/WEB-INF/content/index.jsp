@@ -95,7 +95,7 @@
 		<div id="sidebar-left" class="col-xs-2 col-sm-2">
 			<ul class="nav main-menu">
 				<li>
-					<a href="processlist" class="active ajax-link">
+					<a href="processlist2" class="active ajax-link">
 						<i class="fa fa-dashboard"></i>
 						<span class="hidden-xs">已部署的工作流</span>
 					</a>
@@ -108,11 +108,6 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="ajax-link" href="leaveapply">我要请假</a></li>
-						<li>
-							<a href="processlist2" class="ajax-link">
-								已部署的工作流2
-							</a>
-						</li>
 					</ul>
 				</li>
 				<li class="dropdown">

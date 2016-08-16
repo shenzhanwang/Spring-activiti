@@ -93,11 +93,14 @@
   $(document).ready(function(){
 	    var grid =$("#grid-data").bootgrid({
 	    ajax:true,
+	    rowCount:1,
+	    navigation:2,
+	    columnSelection:false,
 	    url:"getprocesslists",
 	        formatters: {
 	        "commands": function(column, row)
 	        {
-	            return "<button type=\"button\" class=\"btn btn-xs btn-info btn-label-left command-delete\" data-row-id=\"" + row.deploymentId + "\">删除</button>";
+	            return "<button type=\"button\" class=\"btn btn-xs btn-info command-delete\" data-row-id=\"" + row.deploymentId + "\">删除</button>";
 	        },
 	        "resname":function(column, row)
 	        {

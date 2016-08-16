@@ -1,36 +1,56 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>login</title>
-    <script src="./js/jquery-1.12.3.min.js"></script>
-<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
-<script src="//cdn.bootcss.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<style type="text/css">
-.vertical-center{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-</style>
-  </head>
-  <body>
-    <div class="container vertical-center">
-	<div class="col-md-6 col-md-offset-3">
-      <form  action="loginvalidate" method="post">
-        <h2 >Please login</h2>
-        <label for="inputEmail" class="sr-only">userid</label>
-        <input type="text" name="username" id="inputEmail" class="form-control" placeholder="userid" required autofocus>
-        <label for="inputPassword" class="sr-only">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        <label for="inputEmail" class="sr-only">userid</label>
-        <input type="text" name="pic" id="pic" class="form-control" placeholder="验证码" required>              
-                        验证码：<img src="authImg" width="120" height="40">  
-        <button class="btn btn-lg btn-primary btn-block" type="submit">login</button>
-      </form>
-        	
+	<head>
+		<meta charset="utf-8">
+		<title>登录</title>
+		<meta name="description" content="description">
+		<meta name="author" content="Evgeniya">
+		<meta name="keyword" content="keywords">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href="./plugins/bootstrap/bootstrap.css" rel="stylesheet">
+		<link href="http://netdna.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet">
+		<link href='http://fonts.googleapis.com/css?family=Righteous' rel='stylesheet' type='text/css'>
+		<link href="./css/style_v1.css" rel="stylesheet">
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+		<!--[if lt IE 9]>
+				<script src="http://getbootstrap.com/docs-assets/js/html5shiv.js"></script>
+				<script src="http://getbootstrap.com/docs-assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+<body>
+<div class="container-fluid">
+	<div id="page-login" class="row">
+		<div class="col-xs-12 col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+			<div class="text-right">
+				<a href="register" class="txt-default">Need an account?</a>
+			</div>
+			<div class="box">
+				<div class="box-content">
+					<div class="text-center">
+						<h3 class="page-header">Spring-activiti Login Page</h3>
+					</div>
+					<form action="loginvalidate" method="post">
+					<div class="form-group">
+						<label class="control-label">Username</label>
+						<input type="text" class="form-control" name="username" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">Password</label>
+						<input type="password" class="form-control" name="password" />
+					</div>
+					<div class="form-group">
+						<label class="control-label">验证码</label> &nbsp &nbsp &nbsp<img src="authImg" width="70" height="25">  
+						<input type="text" class="form-control" name="pic" />
+					</div>
+					<div class="text-center">
+						<button class="btn btn-primary">login</button>
+					</div>
+					</form>
+				</div>
+			</div>
+		</div>
 	</div>
-    </div> <!-- /container -->
-  </body>
+</div>
+</body>
 </html>
