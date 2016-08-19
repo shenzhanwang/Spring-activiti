@@ -42,6 +42,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.Page;
 
 @Controller
 public class ActivitiController {
@@ -78,8 +79,10 @@ public class ActivitiController {
 	
 	@RequestMapping("/getprocesslists")
 	@ResponseBody
-	public String getlist(@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
-		List<ProcessDefinition> list=rep.createProcessDefinitionQuery().list();
+	public DataGrid<Process> getlist(@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		int firstrow=(current-1)*rowCount;
+		List<ProcessDefinition> list=rep.createProcessDefinitionQuery().listPage(firstrow, rowCount);
+		int total=rep.createProcessDefinitionQuery().list().size();
 		List<Process> mylist=new ArrayList<Process>();
 		for(int i=0;i<list.size();i++)
 		{
@@ -96,8 +99,8 @@ public class ActivitiController {
 		grid.setCurrent(current);
 		grid.setRowCount(rowCount);
 		grid.setRows(mylist);
-		grid.setTotal(mylist.size());
-		return JSON.toJSONString(grid);
+		grid.setTotal(total);
+		return grid;
 	}
 	
 	@RequestMapping("/getprocesslists2")
@@ -188,9 +191,11 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/depttasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public String getdepttasklist(HttpSession session){
+	public String getdepttasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		List<LeaveApply> results=leaveservice.getalldepttask(userid);
+		List<LeaveApply> results=leaveservice.getpagedepttask(userid,firstrow,rowCount);
+		int totalsize=leaveservice.getalldepttask(userid);
 		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
 		for(LeaveApply apply:results){
 			LeaveTask task=new LeaveTask();
@@ -209,18 +214,20 @@ public class ActivitiController {
 			tasks.add(task);
 		}
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
-		grid.setRowCount(10);
-		grid.setCurrent(1);
-		grid.setTotal(tasks.size());
+		grid.setRowCount(rowCount);
+		grid.setCurrent(current);
+		grid.setTotal(totalsize);
 		grid.setRows(tasks);
 		return JSON.toJSONString(grid);
 	}
 	
 	@RequestMapping(value="/hrtasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public String gethrtasklist(HttpSession session){
+	public String gethrtasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		List<LeaveApply> results=leaveservice.getallhrtask(userid);
+		List<LeaveApply> results=leaveservice.getpagehrtask(userid,firstrow,rowCount);
+		int totalsize=leaveservice.getallhrtask(userid);
 		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
 		for(LeaveApply apply:results){
 			LeaveTask task=new LeaveTask();
@@ -239,18 +246,20 @@ public class ActivitiController {
 			tasks.add(task);
 		}
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
-		grid.setRowCount(10);
-		grid.setCurrent(1);
-		grid.setTotal(tasks.size());
+		grid.setRowCount(rowCount);
+		grid.setCurrent(current);
+		grid.setTotal(totalsize);
 		grid.setRows(tasks);
 		return JSON.toJSONString(grid);
 	}
 	
 	@RequestMapping(value="/xjtasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public String getXJtasklist(HttpSession session){
+	public String getXJtasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		List<LeaveApply> results=leaveservice.getallXJtask(userid);
+		List<LeaveApply> results=leaveservice.getpageXJtask(userid,firstrow,rowCount);
+		int totalsize=leaveservice.getallXJtask(userid);
 		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
 		for(LeaveApply apply:results){
 			LeaveTask task=new LeaveTask();
@@ -269,9 +278,9 @@ public class ActivitiController {
 			tasks.add(task);
 		}
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
-		grid.setRowCount(10);
-		grid.setCurrent(1);
-		grid.setTotal(tasks.size());
+		grid.setRowCount(rowCount);
+		grid.setCurrent(current);
+		grid.setTotal(totalsize);
 		grid.setRows(tasks);
 		return JSON.toJSONString(grid);
 	}
@@ -279,9 +288,11 @@ public class ActivitiController {
 	
 	@RequestMapping(value="/updatetasklist",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	public String getupdatetasklist(HttpSession session){
+	public String getupdatetasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		int firstrow=(current-1)*rowCount;
 		String userid=(String) session.getAttribute("username");
-		List<LeaveApply> results=leaveservice.getallupdateapplytask(userid);
+		List<LeaveApply> results=leaveservice.getpageupdateapplytask(userid,firstrow,rowCount);
+		int totalsize=leaveservice.getallupdateapplytask(userid);
 		List<LeaveTask> tasks=new ArrayList<LeaveTask>();
 		for(LeaveApply apply:results){
 			LeaveTask task=new LeaveTask();
@@ -300,9 +311,9 @@ public class ActivitiController {
 			tasks.add(task);
 		}
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
-		grid.setRowCount(10);
-		grid.setCurrent(1);
-		grid.setTotal(tasks.size());
+		grid.setRowCount(rowCount);
+		grid.setCurrent(current);
+		grid.setTotal(totalsize);
 		grid.setRows(tasks);
 		return JSON.toJSONString(grid);
 	}

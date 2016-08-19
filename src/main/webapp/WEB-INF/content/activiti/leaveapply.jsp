@@ -71,8 +71,8 @@ $(document).ready(function(){
 		});
 	});
 	
-	$('#start').datepicker({setDate: new Date()});
-	$('#end').datepicker({setDate: new Date()});
+	$('#start').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
+	$('#end').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
 	
 });
 

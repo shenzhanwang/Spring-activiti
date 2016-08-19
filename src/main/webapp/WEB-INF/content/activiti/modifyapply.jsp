@@ -122,8 +122,13 @@
     <script type="text/javascript">
     
     $(document).ready(function(){
+	$('#startime').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
+	$('#endtime').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
+    
     	$("#dept").hide();
 	    var grid=$("#grid-data").bootgrid({
+	    	navigation:2,
+  			columnSelection:false,
 		    ajax:true,
 		    url:"updatetasklist",
 		    formatters: {
@@ -138,7 +143,7 @@
 	    	    grid.find(".command-run1").on("click", function(e)
 	    	    {
 	    	    	var taskid=$(this).data("row-id");
-	    	    	$.post("dealtask",{taskid},function(data){
+	    	    	$.post("dealtask",{"taskid":taskid},function(data){
 	    	    		$("#reason").val(data.reason);
 	    	    		$("#type").val(data.leave_type);
 	    	    		$("#userid").val(data.user_id);

@@ -93,7 +93,7 @@
   $(document).ready(function(){
 	    var grid =$("#grid-data").bootgrid({
 	    ajax:true,
-	    rowCount:1,
+	    rowCount:10,
 	    navigation:2,
 	    columnSelection:false,
 	    url:"getprocesslists",

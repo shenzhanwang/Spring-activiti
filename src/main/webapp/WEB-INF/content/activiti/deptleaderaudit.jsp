@@ -79,7 +79,6 @@
                                 	<div class="form-group">
 						                <label>开始时间</label>
 						                <input class="form-control" id="startime" readonly="readonly">
-						                <span class="fa fa-calendar txt-danger form-control-feedback"></span>
 						             </div>
 						             <div class="form-group">
 						                <label>结束时间</label>
@@ -119,6 +118,8 @@
     $(document).ready(function(){
     	$("#dept").hide();
 	    var grid=$("#grid-data").bootgrid({
+	    	navigation:2,
+  			columnSelection:false,
 		    ajax:true,
 		    url:"depttasklist",
 		    formatters: {
@@ -133,7 +134,7 @@
 	    	    grid.find(".command-run1").on("click", function(e)
 	    	    {
 	    	    	var taskid=$(this).data("row-id");
-	    	    	$.post("dealtask",{taskid},function(data){
+	    	    	$.post("dealtask",{"taskid":taskid},function(data){
 	    	    		$("#reason").val(data.reason);
 	    	    		$("#type").val(data.leave_type);
 	    	    		$("#userid").val(data.user_id);

@@ -43,9 +43,9 @@ public class LeaveServiceImpl implements LeaveService{
 		return instance;
 	}
 
-	public List<LeaveApply> getalldepttask(String userid) {
+	public List<LeaveApply> getpagedepttask(String userid,int firstrow,int rowcount) {
 		List<LeaveApply> results=new ArrayList<LeaveApply>();
-		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("部门领导审批").list();
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("部门领导审批").listPage(firstrow, rowcount);
 		for(Task task:tasks){
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
@@ -55,6 +55,11 @@ public class LeaveServiceImpl implements LeaveService{
 			results.add(a);
 		}
 		return results;
+	}
+	
+	public int getalldepttask(String userid) {
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("部门领导审批").list();
+		return tasks.size();
 	}
 
 	public LeaveApply getleave(int id) {
@@ -62,9 +67,28 @@ public class LeaveServiceImpl implements LeaveService{
 		return leave;
 	}
 
-	public List<LeaveApply> getallhrtask(String userid) {
+	public List<LeaveApply> getpagehrtask(String userid,int firstrow,int rowcount) {
 		List<LeaveApply> results=new ArrayList<LeaveApply>();
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("人事审批").listPage(firstrow, rowcount);
+		for(Task task:tasks){
+			String instanceid=task.getProcessInstanceId();
+			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
+			String businesskey=ins.getBusinessKey();
+			LeaveApply a=leavemapper.get(Integer.parseInt(businesskey));
+			a.setTask(task);
+			results.add(a);
+		}
+		return results;
+	}
+
+	public int getallhrtask(String userid) {
 		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("人事审批").list();
+		return tasks.size();
+	}
+	
+	public List<LeaveApply> getpageXJtask(String userid,int firstrow,int rowcount) {
+		List<LeaveApply> results=new ArrayList<LeaveApply>();
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("销假").listPage(firstrow, rowcount);
 		for(Task task:tasks){
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
@@ -76,9 +100,14 @@ public class LeaveServiceImpl implements LeaveService{
 		return results;
 	}
 
-	public List<LeaveApply> getallXJtask(String userid) {
-		List<LeaveApply> results=new ArrayList<LeaveApply>();
+	public int getallXJtask(String userid) {
 		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("销假").list();
+		return tasks.size();
+	}
+	
+	public List<LeaveApply> getpageupdateapplytask(String userid,int firstrow,int rowcount) {
+		List<LeaveApply> results=new ArrayList<LeaveApply>();
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("调整申请").listPage(firstrow, rowcount);
 		for(Task task:tasks){
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
@@ -89,19 +118,10 @@ public class LeaveServiceImpl implements LeaveService{
 		}
 		return results;
 	}
-
-	public List<LeaveApply> getallupdateapplytask(String userid) {
-		List<LeaveApply> results=new ArrayList<LeaveApply>();
+	
+	public int getallupdateapplytask(String userid) {
 		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("调整申请").list();
-		for(Task task:tasks){
-			String instanceid=task.getProcessInstanceId();
-			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
-			String businesskey=ins.getBusinessKey();
-			LeaveApply a=leavemapper.get(Integer.parseInt(businesskey));
-			a.setTask(task);
-			results.add(a);
-		}
-		return results;
+		return tasks.size();
 	}
 	
 	public void completereportback(String taskid, String realstart_time, String realend_time) {

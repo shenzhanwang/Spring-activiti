@@ -94,11 +94,11 @@
 						             </div>    
 						              <div class="form-group">
 						                <label>实际开始时间</label>
-						                <input class="form-control" name="realstart_time">
+						                <input class="form-control" id="realstart_time" name="realstart_time">
 						             </div>
 						             <div class="form-group">
 						                <label>实际结束时间</label>
-						                <input class="form-control" name="realend_time">
+						                <input class="form-control" id="realend_time" name="realend_time">
 						             </div> 
 						              <button id="btn" type="button" class="btn btn-default">完成</button>
                                 </form>
@@ -115,8 +115,13 @@
     <script type="text/javascript">
     
     $(document).ready(function(){
+    $('#realstart_time').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
+	$('#realend_time').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
+    
     	$("#dept").hide();
 	    var grid=$("#grid-data").bootgrid({
+	    	navigation:2,
+  			columnSelection:false,
 		    ajax:true,
 		    url:"xjtasklist",
 		    formatters: {
@@ -131,7 +136,7 @@
 	    	    grid.find(".command-run1").on("click", function(e)
 	    	    {
 	    	    	var taskid=$(this).data("row-id");
-	    	    	$.post("dealtask",{taskid},function(data){
+	    	    	$.post("dealtask",{"taskid":taskid},function(data){
 	    	    		$("#reason").val(data.reason);
 	    	    		$("#type").val(data.leave_type);
 	    	    		$("#userid").val(data.user_id);
