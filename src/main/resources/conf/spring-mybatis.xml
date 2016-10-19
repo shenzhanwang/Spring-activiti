@@ -20,7 +20,7 @@
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
 		destroy-method="close"
 		p:driverClass="com.mysql.jdbc.Driver"
-		p:jdbcUrl="jdbc:mysql://localhost:3306/sakila"
+		p:jdbcUrl="jdbc:mysql://localhost:3306/activiti"
 		p:user="root"
 		p:password="1234"
 		p:maxPoolSize="40"

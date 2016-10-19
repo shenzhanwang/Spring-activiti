@@ -1,8 +1,9 @@
 package mapper;
 
-import po.Staff;
+import po.User;
+
 
 
 public interface LoginMapper {
-	Staff getpwdbyname(String name);
+	User getpwdbyname(String name);
 }

@@ -14,19 +14,24 @@ import javax.servlet.http.HttpSession;
 import pagemodel.DataGrid;
 import pagemodel.LeaveTask;
 import pagemodel.Process;
-import pagemodel.data;
 import po.LeaveApply;
 import service.LeaveService;
 
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.FormService;
+import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.form.StartFormData;
+import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricProcessInstanceQuery;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.runtime.Execution;
+import org.activiti.engine.runtime.ExecutionQuery;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.apache.commons.io.IOUtils;
@@ -58,6 +63,8 @@ public class ActivitiController {
 	LeaveService leaveservice;
 	@Autowired
 	TaskService taskservice;
+	@Autowired
+	HistoryService histiryservice;
 	
 	@RequestMapping("/processlist")
 	String process(){
@@ -77,7 +84,7 @@ public class ActivitiController {
 		return "index";
 	}
 	
-	@RequestMapping("/getprocesslists")
+	@RequestMapping(value="/getprocesslists")
 	@ResponseBody
 	public DataGrid<Process> getlist(@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
@@ -103,32 +110,6 @@ public class ActivitiController {
 		return grid;
 	}
 	
-	@RequestMapping("/getprocesslists2")
-	@ResponseBody
-	public String getlist2(){
-		List<ProcessDefinition> list=rep.createProcessDefinitionQuery().list();
-		List<Process> mylist=new ArrayList<Process>();
-		for(int i=0;i<list.size();i++)
-		{
-			Process p=new Process();
-			p.setDeploymentId(list.get(i).getDeploymentId());
-			p.setId(list.get(i).getId());
-			p.setKey(list.get(i).getKey());
-			p.setName(list.get(i).getName());
-			p.setResourceName(list.get(i).getResourceName());
-			p.setDiagramresourcename(list.get(i).getDiagramResourceName());
-			mylist.add(p);
-		}
-		data d=new data();
-		Process[] p=mylist.toArray(new Process[1]);
-		d.setData(p);
-		return JSON.toJSONString(d);
-	}
-	
-	@RequestMapping("/processlist2")
-	String process2(){
-		return "activiti/processlist2";
-	}
 	
 	@RequestMapping("/showresource")
 	public void export(@RequestParam("pdid") String pdid,@RequestParam("resource") String resource,HttpServletResponse response) throws Exception{
@@ -182,9 +163,9 @@ public class ActivitiController {
 	@ResponseBody
 	public String start_leave(LeaveApply apply,HttpSession session){
 		String userid=(String) session.getAttribute("username");
-		User user=identityservice.newUser(userid);
 		Map<String,Object> variables=new HashMap<String, Object>();
-		ProcessInstance ins=leaveservice.startWorkflow(apply, user.getId(), variables);
+		variables.put("applyuserid", userid);
+		ProcessInstance ins=leaveservice.startWorkflow(apply, userid, variables);
 		System.out.println("流程id"+ins.getId()+"已启动");
 		return JSON.toJSONString("sucess");
 	}
@@ -366,5 +347,34 @@ public class ActivitiController {
 	public String updatecomplete(@PathVariable("taskid") String taskid,@ModelAttribute("leave") LeaveApply leave,@RequestParam("reapply") String reapply){
 		leaveservice.updatecomplete(taskid,leave,reapply);
 		return JSON.toJSONString("success");
+	}
+	
+	@RequestMapping("/exe")
+	@ResponseBody
+	public String allexeution(){
+		List<Execution> a = runservice.createExecutionQuery().processDefinitionKey("leave").list();
+		for(Execution e : a){
+			System.out.println(e.getActivityId());
+			System.out.println(e.getId());
+			System.out.println(e.getProcessInstanceId());
+			System.out.println(e.isEnded());
+			System.out.println(e.isSuspended());
+		}
+		return "";
+	}
+	
+	@RequestMapping("/getfinishprocess")
+	@ResponseBody
+	public DataGrid<HistoricProcessInstance> getHistory(@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		HistoricProcessInstanceQuery process = histiryservice.createHistoricProcessInstanceQuery().finished();
+		int total= (int) process.count();
+		int firstrow=(current-1)*rowCount;
+		List<HistoricProcessInstance> info = process.listPage(firstrow, rowCount);
+		DataGrid<HistoricProcessInstance> grid=new DataGrid<HistoricProcessInstance>();
+		grid.setCurrent(current);
+		grid.setRowCount(rowCount);
+		grid.setTotal(total);
+		grid.setRows(info);
+		return grid;
 	}
 }

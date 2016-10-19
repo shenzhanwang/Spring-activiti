@@ -33,7 +33,7 @@ public class LeaveServiceImpl implements LeaveService{
 		apply.setApply_time(new Date().toString());
 		apply.setUser_id(userid);
 		leavemapper.save(apply);
-		String businesskey=String.valueOf(apply.getId());
+		String businesskey=String.valueOf(apply.getId());//使用leaveapply表的主键作为businesskey,连接业务数据和流程数据
 		identityservice.setAuthenticatedUserId(userid);
 		ProcessInstance instance=runtimeservice.startProcessInstanceByKey("leave",businesskey,variables);
 		System.out.println(businesskey);
@@ -45,7 +45,7 @@ public class LeaveServiceImpl implements LeaveService{
 
 	public List<LeaveApply> getpagedepttask(String userid,int firstrow,int rowcount) {
 		List<LeaveApply> results=new ArrayList<LeaveApply>();
-		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("部门领导审批").listPage(firstrow, rowcount);
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateGroup("部门经理").listPage(firstrow, rowcount);
 		for(Task task:tasks){
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
@@ -58,7 +58,7 @@ public class LeaveServiceImpl implements LeaveService{
 	}
 	
 	public int getalldepttask(String userid) {
-		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("部门领导审批").list();
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateGroup("部门经理").list();
 		return tasks.size();
 	}
 
@@ -69,7 +69,7 @@ public class LeaveServiceImpl implements LeaveService{
 
 	public List<LeaveApply> getpagehrtask(String userid,int firstrow,int rowcount) {
 		List<LeaveApply> results=new ArrayList<LeaveApply>();
-		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("人事审批").listPage(firstrow, rowcount);
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateGroup("人事").listPage(firstrow, rowcount);
 		for(Task task:tasks){
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
@@ -82,7 +82,7 @@ public class LeaveServiceImpl implements LeaveService{
 	}
 
 	public int getallhrtask(String userid) {
-		List<Task> tasks=taskservice.createTaskQuery().taskCandidateOrAssigned(userid).taskName("人事审批").list();
+		List<Task> tasks=taskservice.createTaskQuery().taskCandidateGroup("人事").list();
 		return tasks.size();
 	}
 	
