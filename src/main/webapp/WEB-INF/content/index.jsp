@@ -136,7 +136,7 @@
 						<span class="hidden-xs">运行流程进度追踪</span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="#">请假OA</a></li>
+						<li><a class="ajax-link" href="#">我的请假申请进度</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -145,7 +145,7 @@
 						<span class="hidden-xs">已结束流程数据查询</span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="#">请假OA</a></li>
+						<li><a class="ajax-link" href="historyprocess">我的请假历史</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

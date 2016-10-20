@@ -45,4 +45,7 @@
     		tel=#{tel},age=#{age}
     	where user.uid=#{uid}
     </update>
+    <select id="getUidByusername" resultType="int" parameterType="String">
+    	select uid from user where username=#{username} 
+    </select>
 </mapper>

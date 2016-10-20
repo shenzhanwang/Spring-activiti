@@ -130,6 +130,10 @@ public class SystemServiceImpl implements SystemService{
 		permissionmapper.deletepermission(pid);
 		permissionmapper.deleteRole_permission(pid);
 	}
+	public int getUidByusername(String username) {
+		
+		return usermapper.getUidByusername(username);
+	}
 	
 	
 

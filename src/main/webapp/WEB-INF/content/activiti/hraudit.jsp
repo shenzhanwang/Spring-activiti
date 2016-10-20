@@ -41,8 +41,7 @@
 							                <th data-column-id="taskid">任务ID</th>
 							                <th data-column-id="taskname">任务名称</th>
 							                <th data-column-id="process_instance_id" >流程实例ID</th>
-							                <th data-column-id="processdefid">流程定义ID</th>
-							                <th data-column-id="taskcreatetime">任务创建时间</th>
+							                <th data-formatter="taskcreatetime" data-column-id="taskcreatetime">任务创建时间</th>
 							                <th data-formatter="commands">操作</th>
 							            </tr>
 							        </thead>
@@ -123,6 +122,9 @@
 		    ajax:true,
 		    url:"hrtasklist",
 		    formatters: {
+		    "taskcreatetime":function(column, row){
+		    	return getLocalTime(row.taskcreatetime);
+		    },
 		    "commands": function(column, row)
 		    {
 		            return "<button class=\"btn btn-xs btn-default ajax-link command-run1\" data-row-id=\"" + row.taskid + "\">处理</button>";
@@ -156,4 +158,8 @@
 	    
 	    });
 	  });
+	  
+	  function getLocalTime(nS) {  
+ return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/,' ');  
+}
     </script>

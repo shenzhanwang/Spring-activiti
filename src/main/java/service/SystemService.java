@@ -26,4 +26,5 @@ public interface SystemService {
 	List<Permission> getPagePermisions(int pagenum, int pagesize);
 	void addPermission(String permissionname);
 	void deletepermission(int pid);
+	int getUidByusername(String username);
 }
