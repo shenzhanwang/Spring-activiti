@@ -24,6 +24,7 @@ import org.activiti.engine.history.HistoricVariableInstance;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
+import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,7 @@ import pagemodel.DataGrid;
 import pagemodel.HistoryProcess;
 import pagemodel.LeaveTask;
 import pagemodel.Process;
+import pagemodel.RunningProcess;
 import po.LeaveApply;
 import po.Permission;
 import po.Role;
@@ -262,7 +264,6 @@ public class ActivitiController {
 			for(int j=0;j<p.size();j++){
 				Role_permission rp=p.get(j);
 				Permission permission=rp.getPermission();
-				System.out.println(permission.getPermissionname());
 				if(permission.getPermissionname().equals("人事审批"))
 					flag=true;
 				else
@@ -420,18 +421,29 @@ public class ActivitiController {
 		return JSON.toJSONString("success");
 	}
 	
-	@RequestMapping("/exe")
+	@RequestMapping("involvedprocess")//参与的正在运行的请假流程
 	@ResponseBody
-	public String allexeution(){
-		List<Execution> a = runservice.createExecutionQuery().processDefinitionKey("leave").list();
-		for(Execution e : a){
-			System.out.println(e.getActivityId());
-			System.out.println(e.getId());
-			System.out.println(e.getProcessInstanceId());
-			System.out.println(e.isEnded());
-			System.out.println(e.isSuspended());
+	public DataGrid<RunningProcess> allexeution(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		int firstrow=(current-1)*rowCount;
+		String userid=(String) session.getAttribute("username");
+		ProcessInstanceQuery query = runservice.createProcessInstanceQuery();
+		int total= (int) query.count();
+		List<ProcessInstance> a = query.processDefinitionKey("leave").involvedUser(userid).listPage(firstrow, rowCount);
+		List<RunningProcess> list=new ArrayList<RunningProcess>();
+		for(ProcessInstance p:a){
+			RunningProcess process=new RunningProcess();
+			process.setActivityid(p.getActivityId());
+			process.setBusinesskey(p.getBusinessKey());
+			process.setExecutionid(p.getId());
+			process.setProcessInstanceid(p.getProcessInstanceId());
+			list.add(process);
 		}
-		return "";
+		DataGrid<RunningProcess> grid=new DataGrid<RunningProcess>();
+		grid.setCurrent(current);
+		grid.setRowCount(rowCount);
+		grid.setTotal(total);
+		grid.setRows(list);
+		return grid;
 	}
 	
 	@RequestMapping("/getfinishprocess")
@@ -474,10 +486,9 @@ public class ActivitiController {
 		  return his;
 	}
 	
-	@RequestMapping("var")
-	@ResponseBody
-	public List<HistoricVariableInstance> processvar(@RequestParam("instanceid")String instanceid){
-		  List<HistoricVariableInstance> his = histiryservice.createHistoricVariableInstanceQuery().processInstanceId(instanceid).list();
-		  return his;
+	@RequestMapping("myleaveprocess")
+	String myleaveprocess(){
+		return "activiti/myleaveprocess";
+		
 	}
 }

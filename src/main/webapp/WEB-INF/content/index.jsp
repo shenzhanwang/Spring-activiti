@@ -136,7 +136,7 @@
 						<span class="hidden-xs">运行流程进度追踪</span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="#">我的请假申请进度</a></li>
+						<li><a class="ajax-link" href="myleaveprocess">我正在参与的请假流程</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
