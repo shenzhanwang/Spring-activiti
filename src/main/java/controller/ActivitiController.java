@@ -2,6 +2,7 @@ package controller;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.engine.FormService;
 import org.activiti.engine.HistoryService;
 import org.activiti.engine.IdentityService;
@@ -20,12 +22,13 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.history.HistoricActivityInstance;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricProcessInstanceQuery;
-import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.impl.RepositoryServiceImpl;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.repository.ProcessDefinition;
-import org.activiti.engine.runtime.Execution;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.runtime.ProcessInstanceQuery;
 import org.activiti.engine.task.Task;
+import org.activiti.image.impl.DefaultProcessDiagramGenerator;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -489,6 +492,28 @@ public class ActivitiController {
 	@RequestMapping("myleaveprocess")
 	String myleaveprocess(){
 		return "activiti/myleaveprocess";
-		
 	}
+	
+	@RequestMapping("traceprocess/{executionid}")
+	public void traceprocess(@PathVariable("executionid")String executionid,HttpServletResponse response) throws Exception{
+		ProcessInstance process=runservice.createProcessInstanceQuery().processInstanceId(executionid).singleResult();
+		BpmnModel bpmnmodel=rep.getBpmnModel(process.getProcessDefinitionId());
+		List<String> activeActivityIds=runservice.getActiveActivityIds(executionid);
+		DefaultProcessDiagramGenerator gen=new DefaultProcessDiagramGenerator();
+		 // 获得历史活动记录实体（通过启动时间正序排序，不然有的线可以绘制不出来）  
+	    List<HistoricActivityInstance> historicActivityInstances = histiryservice  
+	            .createHistoricActivityInstanceQuery().executionId(executionid)  
+	            .orderByHistoricActivityInstanceStartTime().asc().list();  
+	    // 计算活动线  
+	    List<String> highLightedFlows = leaveservice.getHighLightedFlows(  
+	                    (ProcessDefinitionEntity) ((RepositoryServiceImpl) rep)  
+	                            .getDeployedProcessDefinition(process.getProcessDefinitionId()),  
+	                    historicActivityInstances); 
+		
+		InputStream in=gen.generateDiagram(bpmnmodel, "png", activeActivityIds,highLightedFlows,"宋体","宋体",null,1.0);
+	    //InputStream in=gen.generateDiagram(bpmnmodel, "png", activeActivityIds);
+	    ServletOutputStream output = response.getOutputStream();
+		IOUtils.copy(in, output);
+	}
+	
 }

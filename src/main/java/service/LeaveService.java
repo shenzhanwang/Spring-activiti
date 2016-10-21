@@ -3,6 +3,8 @@ package service;
 import java.util.List;
 import java.util.Map;
 
+import org.activiti.engine.history.HistoricActivityInstance;
+import org.activiti.engine.impl.persistence.entity.ProcessDefinitionEntity;
 import org.activiti.engine.runtime.ProcessInstance;
 
 import po.LeaveApply;
@@ -20,4 +22,7 @@ public interface LeaveService {
 	public int getallupdateapplytask(String userid);
 	public void completereportback(String taskid, String realstart_time, String realend_time);
 	public void updatecomplete(String taskid, LeaveApply leave,String reappply);
+	public List<String> getHighLightedFlows(
+			ProcessDefinitionEntity deployedProcessDefinition,
+			List<HistoricActivityInstance> historicActivityInstances);
 }

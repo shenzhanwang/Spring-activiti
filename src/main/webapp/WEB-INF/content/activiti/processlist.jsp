@@ -104,11 +104,11 @@
 	        },
 	        "resname":function(column, row)
 	        {
-	            return "<a href=\"showresource?pdid="+row.id+"&resource="+row.resourceName+"\">"  + row.resourceName + "</a>";
+	            return "<a target=\"_blank\" href=\"showresource?pdid="+row.id+"&resource="+row.resourceName+"\">"  + row.resourceName + "</a>";
 	        },
 	        "picname":function(column, row)
 	        {
-	        	return "<a href=\"showresource?pdid="+row.id+"&resource="+row.diagramresourcename+"\">"  + row.diagramresourcename + "</a>";
+	        	return "<a target=\"_blank\" href=\"showresource?pdid="+row.id+"&resource="+row.diagramresourcename+"\">"  + row.diagramresourcename + "</a>";
 	        },
 	    	}
 	    }).on("loaded.rs.jquery.bootgrid", function()
