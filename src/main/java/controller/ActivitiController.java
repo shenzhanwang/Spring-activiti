@@ -516,4 +516,38 @@ public class ActivitiController {
 		IOUtils.copy(in, output);
 	}
 	
+	@RequestMapping("myleaves")
+	String myleaves(){
+		return "activiti/myleaves";
+	}
+	
+	@RequestMapping("setupprocess")
+	@ResponseBody
+	public DataGrid<RunningProcess> setupprocess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
+		int firstrow=(current-1)*rowCount;
+		String userid=(String) session.getAttribute("username");
+		ProcessInstanceQuery query = runservice.createProcessInstanceQuery();
+		int total= (int) query.count();
+		List<ProcessInstance> a = query.processDefinitionKey("leave").involvedUser(userid).listPage(firstrow, rowCount);
+		List<RunningProcess> list=new ArrayList<RunningProcess>();
+		for(ProcessInstance p:a){
+			RunningProcess process=new RunningProcess();
+			process.setActivityid(p.getActivityId());
+			process.setBusinesskey(p.getBusinessKey());
+			process.setExecutionid(p.getId());
+			process.setProcessInstanceid(p.getProcessInstanceId());
+			LeaveApply l=leaveservice.getleave(Integer.parseInt(p.getBusinessKey()));
+			if(l.getUser_id().equals(userid))
+			list.add(process);
+			else
+			continue;
+		}
+		DataGrid<RunningProcess> grid=new DataGrid<RunningProcess>();
+		grid.setCurrent(current);
+		grid.setRowCount(rowCount);
+		grid.setTotal(total);
+		grid.setRows(list);
+		return grid;
+	}
+	
 }

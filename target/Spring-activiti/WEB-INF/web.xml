@@ -48,6 +48,10 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener
 		</listener-class>
   </listener>
+  <context-param>
+    <param-name>webAppRootKey</param-name>
+    <param-value>spring-activiti.root</param-value>
+  </context-param> 
   <!-- spring mvc配置 -->
   <servlet>
     <servlet-name>sakila</servlet-name>

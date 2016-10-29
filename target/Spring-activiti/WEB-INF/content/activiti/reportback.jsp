@@ -41,8 +41,7 @@
 							                <th data-column-id="taskid">任务ID</th>
 							                <th data-column-id="taskname">任务名称</th>
 							                <th data-column-id="process_instance_id" >流程实例ID</th>
-							                <th data-column-id="processdefid">流程定义ID</th>
-							                <th data-column-id="taskcreatetime">任务创建时间</th>
+							                <th data-formatter="taskcreatetime" data-column-id="taskcreatetime">任务创建时间</th>
 							                <th data-formatter="commands">操作</th>
 							            </tr>
 							        </thead>
@@ -94,11 +93,11 @@
 						             </div>    
 						              <div class="form-group">
 						                <label>实际开始时间</label>
-						                <input class="form-control" name="realstart_time">
+						                <input class="form-control" id="realstart_time" name="realstart_time">
 						             </div>
 						             <div class="form-group">
 						                <label>实际结束时间</label>
-						                <input class="form-control" name="realend_time">
+						                <input class="form-control" id="realend_time" name="realend_time">
 						             </div> 
 						              <button id="btn" type="button" class="btn btn-default">完成</button>
                                 </form>
@@ -115,11 +114,19 @@
     <script type="text/javascript">
     
     $(document).ready(function(){
+    $('#realstart_time').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
+	$('#realend_time').datepicker({setDate: new Date(), dateFormat: 'yy-mm-dd'});
+    
     	$("#dept").hide();
 	    var grid=$("#grid-data").bootgrid({
+	    	navigation:2,
+  			columnSelection:false,
 		    ajax:true,
 		    url:"xjtasklist",
 		    formatters: {
+		    "taskcreatetime":function(column, row){
+		    	return getLocalTime(row.taskcreatetime);
+		    },
 		    "commands": function(column, row)
 		    {
 		            return "<button class=\"btn btn-xs btn-default ajax-link command-run1\" data-row-id=\"" + row.taskid + "\">处理</button>";
@@ -131,7 +138,7 @@
 	    	    grid.find(".command-run1").on("click", function(e)
 	    	    {
 	    	    	var taskid=$(this).data("row-id");
-	    	    	$.post("dealtask",{taskid},function(data){
+	    	    	$.post("dealtask",{"taskid":taskid},function(data){
 	    	    		$("#reason").val(data.reason);
 	    	    		$("#type").val(data.leave_type);
 	    	    		$("#userid").val(data.user_id);
@@ -153,4 +160,9 @@
 	    
 	    });
 	  });
+	  
+	  
+	  function getLocalTime(nS) {  
+ return new Date(parseInt(nS)).toLocaleString().replace(/:\d{1,2}$/,' ');  
+}
     </script>

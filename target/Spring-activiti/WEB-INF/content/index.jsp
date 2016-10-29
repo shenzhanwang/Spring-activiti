@@ -107,23 +107,18 @@
 						<span class="hidden-xs">功能表</span>
 					</a>
 					<ul class="dropdown-menu">
-						<li><a class="ajax-link" href="leaveapply">我要请假</a></li>
-						<li>
-							<a href="processlist2" class="ajax-link">
-								已部署的工作流2
-							</a>
-						</li>
+						<li><a class="ajax-link" href="leaveapply">请假OA</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
 					<a href="#" class="dropdown-toggle">
-						<i class="fa fa-tasks"></i>
+						<i class="fa  fa-bell"></i>
 						 <span class="hidden-xs">我的待办任务</span>
 					</a>
 					<ul class="dropdown-menu">
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle">
-								<i class="fa fa-plus-square"></i>
+								<i class="fa fa-bars"></i>
 								<span class="hidden-xs">请假待办</span>
 							</a>
 							<ul class="dropdown-menu">
@@ -133,6 +128,35 @@
 								<li><a class="ajax-link" href="modifyapply">调整申请</a></li>
 							</ul>
 						</li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-truck"></i>
+						<span class="hidden-xs">运行流程进度追踪</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="ajax-link" href="myleaveprocess">我正在参与的请假流程</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-power-off"></i>
+						<span class="hidden-xs">已结束流程数据查询</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="ajax-link" href="historyprocess">我的请假历史</a></li>
+					</ul>
+				</li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle">
+						<i class="fa fa-cog"></i>
+						<span class="hidden-xs">系统管理</span>
+					</a>
+					<ul class="dropdown-menu">
+						<li><a class="ajax-link" href="useradmin">用户管理</a></li>
+						<li><a class="ajax-link" href="roleadmin">角色管理</a></li>
+						<li><a class="ajax-link" href="permissionadmin">权限管理</a></li>
 					</ul>
 				</li>
 			</ul>
