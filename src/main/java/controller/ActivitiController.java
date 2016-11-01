@@ -453,7 +453,7 @@ public class ActivitiController {
 	@ResponseBody
 	public DataGrid<HistoryProcess> getHistory(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		String userid=(String) session.getAttribute("username");
-		HistoricProcessInstanceQuery process = histiryservice.createHistoricProcessInstanceQuery().startedBy(userid).finished();
+		HistoricProcessInstanceQuery process = histiryservice.createHistoricProcessInstanceQuery().processDefinitionKey("leave").startedBy(userid).finished();
 		int total= (int) process.count();
 		int firstrow=(current-1)*rowCount;
 		List<HistoricProcessInstance> info = process.listPage(firstrow, rowCount);
@@ -485,6 +485,15 @@ public class ActivitiController {
 	@RequestMapping("/processinfo")
 	@ResponseBody
 	public List<HistoricActivityInstance> processinfo(@RequestParam("instanceid")String instanceid){
+		  List<HistoricActivityInstance> his = histiryservice.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
+		  return his;
+	}
+	
+	@RequestMapping("/processhis")
+	@ResponseBody
+	public List<HistoricActivityInstance> processhis(@RequestParam("ywh")String ywh){
+		  String instanceid=histiryservice.createHistoricProcessInstanceQuery().processDefinitionKey("purchase").processInstanceBusinessKey(ywh).singleResult().getId();
+		  System.out.println(instanceid);
 		  List<HistoricActivityInstance> his = histiryservice.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
 		  return his;
 	}

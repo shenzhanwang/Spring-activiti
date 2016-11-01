@@ -108,6 +108,7 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="ajax-link" href="leaveapply">请假OA</a></li>
+						<li><a class="ajax-link" href="purchase">物资采购</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -136,7 +137,9 @@
 						<span class="hidden-xs">运行流程进度追踪</span>
 					</a>
 					<ul class="dropdown-menu">
+						<li><a class="ajax-link" href="myleaves">我发起的请假流程</a></li>
 						<li><a class="ajax-link" href="myleaveprocess">我正在参与的请假流程</a></li>
+						<li><a class="ajax-link" href="mypurchase">我发起的采购流程</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

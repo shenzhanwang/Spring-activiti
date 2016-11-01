@@ -2,11 +2,13 @@ package pagemodel;
 
 
 import po.LeaveApply;
+import po.PurchaseApply;
 
 public class HistoryProcess {
 	String processDefinitionId;
 	String businessKey;
 	LeaveApply leaveapply;
+	PurchaseApply purchaseapply;
 	public String getProcessDefinitionId() {
 		return processDefinitionId;
 	}
@@ -24,6 +26,12 @@ public class HistoryProcess {
 	}
 	public void setLeaveapply(LeaveApply leaveapply) {
 		this.leaveapply = leaveapply;
+	}
+	public PurchaseApply getPurchaseapply() {
+		return purchaseapply;
+	}
+	public void setPurchaseapply(PurchaseApply purchaseapply) {
+		this.purchaseapply = purchaseapply;
 	}
 	
 	

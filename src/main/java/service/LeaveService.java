@@ -22,7 +22,5 @@ public interface LeaveService {
 	public int getallupdateapplytask(String userid);
 	public void completereportback(String taskid, String realstart_time, String realend_time);
 	public void updatecomplete(String taskid, LeaveApply leave,String reappply);
-	public List<String> getHighLightedFlows(
-			ProcessDefinitionEntity deployedProcessDefinition,
-			List<HistoricActivityInstance> historicActivityInstances);
+	public List<String> getHighLightedFlows(ProcessDefinitionEntity deployedProcessDefinition,List<HistoricActivityInstance> historicActivityInstances);
 }
