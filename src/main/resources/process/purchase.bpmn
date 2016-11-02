@@ -33,7 +33,7 @@
       <sequenceFlow id="flow12" name="金额大于1万" sourceRef="exclusivegateway4" targetRef="manageraudit">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${money>10000}]]></conditionExpression>
       </sequenceFlow>
-      <userTask id="paymoney" name="出纳付款" activiti:candidateGroups="财务管理员"></userTask>
+      <userTask id="paymoney" name="出纳付款" activiti:candidateGroups="出纳员"></userTask>
       <sequenceFlow id="flow13" name="金额小于1万" sourceRef="exclusivegateway4" targetRef="paymoney">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${money<10000}]]></conditionExpression>
       </sequenceFlow>
@@ -44,14 +44,18 @@
       <endEvent id="errorendevent1" name="总经理不同意">
         <errorEventDefinition errorRef="payment_reject"></errorEventDefinition>
       </endEvent>
-      <sequenceFlow id="flow17" name="通过" sourceRef="exclusivegateway5" targetRef="paymoney"></sequenceFlow>
+      <sequenceFlow id="flow17" name="通过" sourceRef="exclusivegateway5" targetRef="paymoney">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${manager=='true'}]]></conditionExpression>
+      </sequenceFlow>
       <endEvent id="errorendevent2" name="财务不同意">
         <errorEventDefinition errorRef="payment_reject"></errorEventDefinition>
       </endEvent>
       <sequenceFlow id="flow18" sourceRef="exclusivegateway3" targetRef="errorendevent2">
         <conditionExpression xsi:type="tFormalExpression"><![CDATA[${finance=='false'}]]></conditionExpression>
       </sequenceFlow>
-      <sequenceFlow id="flow23" sourceRef="exclusivegateway5" targetRef="errorendevent1"></sequenceFlow>
+      <sequenceFlow id="flow23" sourceRef="exclusivegateway5" targetRef="errorendevent1">
+        <conditionExpression xsi:type="tFormalExpression"><![CDATA[${manager=='false'}]]></conditionExpression>
+      </sequenceFlow>
     </subProcess>
     <boundaryEvent id="boundaryerror1" name="Error" attachedToRef="pay">
       <errorEventDefinition errorRef="payment_reject"></errorEventDefinition>
@@ -201,7 +205,7 @@
         <omgdi:waypoint x="972.0" y="208.0"></omgdi:waypoint>
         <omgdi:waypoint x="928.0" y="208.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="24.0" x="903.0" y="187.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="100.0" x="903.0" y="187.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow18" id="BPMNEdge_flow18">
@@ -216,7 +220,7 @@
         <omgdi:waypoint x="458.0" y="268.0"></omgdi:waypoint>
         <omgdi:waypoint x="358.0" y="267.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="14.0" width="84.0" x="361.0" y="226.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="84.0" x="331.0" y="196.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
