@@ -17,6 +17,11 @@
 
 7.效果图：
 
- ![alt text](https://github.com/shenzhanwang/SSM/blob/master/%E6%88%AA%E5%9B%BE/1.png)
+ ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/2.jpg)
  
- ![alt text](https://github.com/shenzhanwang/SSM/blob/master/%E6%88%AA%E5%9B%BE/2.png)
+ ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/3.jpg)
+ 
+  ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/4.jpg)
+ ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/5.jpg)
+  ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/6.jpg)
+   ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/7.jpg)
