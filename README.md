@@ -1,33 +1,21 @@
-# SSM
-SpringMVC,Mybatis,Spring三大框架的整合总是很麻烦，在此提供一个已经整合好三大框架的包，可以直接下载导入Myeclipse使用，项目基于Maven做依赖管理。项目基于Mysql自带的Sakila数据库实现了MIS系统中常用的多个功能，运行前请安装好Mysql。
+# Spring-activiti
+  在常用的ERP系统、OA系统的开发中，工作流引擎是一个必不可少的工具。本项目旨在基于Spring这一平台，整合业界流行的工作流引擎Activiti，并建立了两个完整的工作流进行演示：请假OA和采购流程。
 
 其中包含的内容如下：
 
-1.SpringMVC4.0.4,Mybatis3.2.2,Spring4.0.4三大框架的整合；
+1.不采用activiti自带的用户、角色功能，因为过于简单，转而自行实现一个用户、角色、权限的三级结构，用户到角色，角色到权限均为多对多映射，持久层框架使用mybatis的collection和association标签嵌套实现；
 
-2.前端框架集成了Bootstrap3.3.5，Jquery1.12.3,集成了Bootstrap插件Bootgrid数据表格实现分页，使用Bootstrap的datetimepicker插件实现日期时间选择，后台的分页使用Mybatis的插件pagehelper实现；
+2.使用默认的用户登录后（用户名xiaomi，密码1234），可看到已部署好的两个流程，请假OA和采购流程，其中，请假OA包含了用户任务、排他网关、起始结束事件，较为简单；采购流程除此之外，还使用了异常结束事件、子流程和边界事件的使用；
 
-3.数据库使用Mysql中自带的sakila数据库，使用前，请将SSM\src\main\resources\conf中的spring-mybatis.xml中的数据库密码设置为自己的；
+3.两个流程均包含了待办任务签收、运行流程进度追踪、已运行完流程历史记录查看的功能，运行流程进度在流程图中以红色标注；
 
-4.实现了sakila中的单表的增删改查和跨表查询，跨表查询包括了Mybatis的1-N双向映射；
+4.使用时，将流程数据和业务数据相分离，是用业务号（businessKey）建立关联流程数据和业务数据的桥梁，使其相互可以访问；
 
-5.集成了作业自动调度框架Quartz 2.2.2实现作业调度；
+5.系统前端采用基于Bootstrap的模板devoops建立。https://github.com/shenzhanwang/devoops
 
-6.json插件使用阿里的开源fastjson工具；
+6.使用方法：将Spring-activiti.war文件拷入tomcat的webapps文件夹下，启动tomcat，起始页面入口：http://localhost:8080/Spring-activiti/login
 
-7.包含了一个文件上传的功能；
-
-8.包含了数据表导出为Excel下载的功能，使用POI实现；
-
-9.包含了带验证码的登录功能以及登录权限验证的拦截器；
-
-10.整个包可直接导入Myeclipse继续编辑，war文件可直接放入tomcat部署。
-
-11.要使用Struts2+hibernate+spring的整合，[点击这里进入](https://github.com/shenzhanwang/SSH_maven)  
-
-访问入口：http://localhost:8080/SSM/login
-
-效果图：
+7.效果图：
 
  ![alt text](https://github.com/shenzhanwang/SSM/blob/master/%E6%88%AA%E5%9B%BE/1.png)
  
