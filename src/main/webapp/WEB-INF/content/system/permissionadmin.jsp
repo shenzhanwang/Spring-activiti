@@ -92,8 +92,8 @@
 	    		}
 	    		$.post("addpermission",$("form").serialize(),function(){
 	    			$("#permissioninfo").modal('hide');
-	    			alert("添加成功");
 	    			LoadAjaxContent("permissionadmin");
+	    			history.go(0);
 	    		});
 	    	});
 	    

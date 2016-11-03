@@ -113,6 +113,7 @@
 		    	    			$("#roleinfo").modal('hide');
 				    			alert("修改成功");
 				    			LoadAjaxContent("roleadmin");
+				    			history.go(0);
 		    	    		});
 		    	    	});
 	    	    	});
@@ -166,6 +167,7 @@
 	    			$("#roleinfo").modal('hide');
 	    			alert("添加成功");
 	    			LoadAjaxContent("roleadmin");
+	    			history.go(0);
 	    		});
 	    	});
 	    

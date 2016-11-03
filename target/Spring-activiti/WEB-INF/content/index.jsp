@@ -129,6 +129,20 @@
 								<li><a class="ajax-link" href="modifyapply">调整申请</a></li>
 							</ul>
 						</li>
+						<li class="dropdown">
+							<a href="#" class="dropdown-toggle">
+								<i class="fa fa-phone-square"></i>
+								<span class="hidden-xs">采购待办</span>
+							</a>
+							<ul class="dropdown-menu">
+								<li><a class="ajax-link" href="purchasemanager">采购经理审批</a></li>
+								<li><a class="ajax-link" href="finance">财务审批</a></li>
+								<li><a class="ajax-link" href="manager">总经理审批</a></li>
+								<li><a class="ajax-link" href="pay">出纳付款</a></li>
+								<li><a class="ajax-link" href="updateapply">调整申请</a></li>
+								<li><a class="ajax-link" href="receiveitem">收货确认</a></li>
+							</ul>
+						</li>
 					</ul>
 				</li>
 				<li class="dropdown">
@@ -149,6 +163,7 @@
 					</a>
 					<ul class="dropdown-menu">
 						<li><a class="ajax-link" href="historyprocess">我的请假历史</a></li>
+						<li><a class="ajax-link" href="historypurchaseprocess">我的采购历史</a></li>
 					</ul>
 				</li>
 				<li class="dropdown">

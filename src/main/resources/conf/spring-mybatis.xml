@@ -45,21 +45,6 @@
         class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
         p:dataSource-ref="dataSource"/>
         
-    <!-- 配置事务增强处理Bean,指定事务管理器 -->
-<tx:advice id="txAdvice" transaction-manager="transactionManager">
-	<!-- 用于配置详细的事务定义 -->
-	<tx:attributes>
-		<!-- 所有以'get'开头的方法是read-only的 -->
-		<tx:method name="get*" read-only="true"/>
-		<!-- 其他方法使用默认的事务设置，指定超时时长为5秒 -->
-		<tx:method name="*" isolation="DEFAULT" propagation="REQUIRED" timeout="5"/>
-	</tx:attributes>
-</tx:advice>
-<!-- AOP配置的元素 -->
-<aop:config>
-	<aop:pointcut id="appPointcut" expression="execution(* service.impl.*Impl.*(..))"/>
-	<!-- 指定在myPointcut切入点应用txAdvice事务增强处理 -->
-	<aop:advisor advice-ref="txAdvice" pointcut-ref="appPointcut"/>
-</aop:config>
+ <tx:annotation-driven transaction-manager="transactionManager"/>
         
 </beans>

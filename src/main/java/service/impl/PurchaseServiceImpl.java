@@ -1,9 +1,7 @@
 package service.impl;
 
-import java.util.Date;
 import java.util.Map;
 
-import mapper.LeaveApplyMapper;
 import mapper.PurchaseApplyMapper;
 
 import org.activiti.engine.IdentityService;
@@ -12,10 +10,13 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import po.PurchaseApply;
 import service.PurchaseService;
-
+@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,timeout=5)
 @Service
 public class PurchaseServiceImpl implements PurchaseService{
 	@Autowired

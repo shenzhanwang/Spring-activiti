@@ -104,6 +104,7 @@
 		    	    			$("#userinfo").modal('hide');
 				    			alert("修改成功");
 				    			LoadAjaxContent("useradmin");
+				    			history.go(0);
 		    	    		});
 		    	    	});
 	    	    	});
@@ -157,6 +158,7 @@
 	    			$("#userinfo").modal('hide');
 	    			alert("添加成功");
 	    			LoadAjaxContent("useradmin");
+	    			history.go(0);
 	    		});
 	    	});
 	    

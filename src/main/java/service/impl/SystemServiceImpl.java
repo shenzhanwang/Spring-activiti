@@ -8,8 +8,9 @@ import mapper.UserMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.github.pagehelper.PageHelper;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import po.Permission;
 import po.Role;
@@ -17,7 +18,10 @@ import po.Role_permission;
 import po.User;
 import po.User_role;
 import service.SystemService;
+
+import com.github.pagehelper.PageHelper;
 @Service
+@Transactional(propagation=Propagation.REQUIRED,isolation=Isolation.DEFAULT,timeout=5)
 public class SystemServiceImpl implements SystemService{
 	@Autowired
 	UserMapper usermapper;
