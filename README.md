@@ -15,18 +15,22 @@
 
 6.系统前端采用基于Bootstrap的模板devoops建立。https://github.com/shenzhanwang/devoops
 
-7.使用方法：先将activiti.sql文件导入mysql,数据库起名为activiti，用户名root，密码1234，再将Spring-activiti.war文件拷入tomcat的webapps文件夹下，启动tomcat，起始页面入口：http://localhost:8080/Spring-activiti/login
-
+7.起始页面入口：http://localhost:8080/Spring-activiti/login
+使用前，编译(可直接在myeclipse完成)：
+```
+mvn clean install
+```
 8.效果图：
 
- ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/2.jpg)
- 
- ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/3.jpg)
- 
-  ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/4.jpg)
- ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/5.jpg)
-  ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/6.jpg)
-   ![alt text](https://github.com/shenzhanwang/Spring-activiti/blob/master/%E6%88%AA%E5%9B%BE/7.jpg)
+![输入图片说明](https://images.gitee.com/uploads/images/2018/1211/082825_ac69fdda_1110335.gif "SSM.gif")
+![输入图片说明](https://images.gitee.com/uploads/images/2018/1211/091443_9ebd78b8_1110335.gif "user.gif")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081734_f50ccb20_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081747_e412ab52_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081802_2f2bf64c_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081810_cbd63187_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081820_97a18226_1110335.jpeg "在这里输入图片标题")
+![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081830_8767776b_1110335.jpeg "在这里输入图片标题")
+
 ### 附录：个人作品索引目录（持续更新）
 
 #### 基础篇:职业化，从做好OA系统开始

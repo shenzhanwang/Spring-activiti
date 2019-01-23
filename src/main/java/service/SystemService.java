@@ -5,6 +5,7 @@ import java.util.List;
 import po.Permission;
 import po.Role;
 import po.User;
+import po.UserRole;
 
 public interface SystemService {
 	List<User> getallusers();
@@ -18,6 +19,12 @@ public interface SystemService {
 	List<Role> getpageRoleinfo(int pagenum, int pagesize);
 	List<Role> getRoleinfo();
 	List<Permission> getPermisions();
+	/**
+	 * 使用用户id获取角色id列表
+	 * @param userid
+	 * @return
+	 */
+	List<UserRole> listRolesByUserid(int userid);
 	void addrole(Role role, String[] permissionnames);
 	void deleterole(int rid);
 	Role getRolebyid(int rid);

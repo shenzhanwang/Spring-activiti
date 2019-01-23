@@ -5,6 +5,7 @@ import java.util.List;
 import mapper.PermissionMapper;
 import mapper.RoleMapper;
 import mapper.UserMapper;
+import mapper.UserRoleMapper;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import po.Permission;
 import po.Role;
 import po.Role_permission;
 import po.User;
+import po.UserRole;
 import po.User_role;
 import service.SystemService;
 
@@ -25,10 +27,16 @@ import com.github.pagehelper.PageHelper;
 public class SystemServiceImpl implements SystemService{
 	@Autowired
 	UserMapper usermapper;
+	
 	@Autowired
 	RoleMapper rolemapper;
+	
 	@Autowired
 	PermissionMapper permissionmapper;
+	
+	@Autowired
+	UserRoleMapper userRoleMapper;
+	
 	public List<User> getallusers() {
 		return usermapper.getusers();
 	}
@@ -135,8 +143,12 @@ public class SystemServiceImpl implements SystemService{
 		permissionmapper.deleteRole_permission(pid);
 	}
 	public int getUidByusername(String username) {
-		
 		return usermapper.getUidByusername(username);
+	}
+	
+	@Override
+	public List<UserRole> listRolesByUserid(int userid) {
+		return userRoleMapper.listUserRoleByUid(userid);
 	}
 	
 	

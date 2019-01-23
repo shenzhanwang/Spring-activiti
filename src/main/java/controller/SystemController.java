@@ -17,6 +17,7 @@ import pagemodel.Userinfo;
 import po.Permission;
 import po.Role;
 import po.User;
+import po.UserRole;
 import po.User_role;
 import service.SystemService;
 
@@ -48,20 +49,22 @@ public class SystemController {
 		List<Userinfo> users=new ArrayList<Userinfo>();
 		for(User user:userlist){
 			Userinfo u=new Userinfo();
-			u.setId(user.getUid());
+			int userid = user.getUid();
+			u.setId(userid);
 			u.setAge(user.getAge());
 			u.setPassword(user.getPassword());
 			u.setTel(user.getTel());
 			u.setUsername(user.getUsername());
 			String rolename="";
-			List<User_role> ur=user.getUser_roles();
-			if(ur!=null){
-				for(User_role userole:ur){
-					rolename=rolename+","+userole.getRole().getRolename();
+			List<UserRole> ur = systemservice.listRolesByUserid(userid);
+			if( ur != null && ur.size() > 0 ){
+				for( UserRole userole : ur ){
+					int roleid = userole.getRoleid();
+					Role r = systemservice.getRolebyid(roleid);
+					rolename=rolename+","+r.getRolename();
 				}
 				if(rolename.length()>0)
-				rolename=rolename.substring(1,rolename.length());
-				
+					rolename=rolename.substring(1,rolename.length());
 				u.setRolelist(rolename);
 			}
 			users.add(u);

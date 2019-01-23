@@ -53,6 +53,7 @@
 	        ajaxSettings: {
 		        method: "GET"
     		},
+    		rowCount:5,
 	    	navigation:2,
   			columnSelection:false,
 		    ajax:true,

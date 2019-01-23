@@ -19,7 +19,7 @@
         </collection>
     </resultMap>
     <select id="getusers" resultMap="userMap">
-    	select * from user left join user_role on user.uid=user_role.userid left join role on user_role.roleid=role.rid
+    	select * from user order by uid
     </select>
     
     <select id="getUserByid" resultMap="userMap">
