@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.RoleMapper">
+<!-- 多对多关系映射，使用1对多和多对1嵌套实现，注意映射关系的三张表的主键名称要不相同（rid,pid,rpid），否则只能查到1条记录 -->
+	<resultMap type="po.Role" id="roleMap">
+        <id column="rid" property="rid" ></id>
+        <result column="rolename" property="rolename"/>
+        <collection property="role_permissions" column="roleid" ofType="po.Role_permission">  
+            <id property="rpid" column="rpid" />
+            <association column="permissionid" property="permission" javaType="po.Permission">
+	        	<id column="pid" property="pid"></id>
+	        	<result column="permissionname" property="permissionname"/>
+        	</association>  
+        </collection>
+    </resultMap>
+
+	<select id="getRoles" resultType="po.Role">
+		select * from role
+	</select>
+
+    <select id="getRoleinfo" resultMap="roleMap">
+    	select * from role left join role_permission on role.rid=role_permission.roleid left join permission 
+    	on role_permission.permissionid=permission.pid
+    </select>
+    <insert id="adduserrole" useGeneratedKeys="true" keyProperty="urid" parameterType="po.User_role">
+    	 insert into user_role (userid,roleid)
+	  	 values (#{user.uid},#{role.rid})
+    </insert>
+    <select id="getRoleidbyName" resultType="po.Role" parameterType="String">
+    	select * from role where rolename=#{rolename}
+    </select>
+    <insert id="addRole" useGeneratedKeys="true" keyProperty="rid" parameterType="po.Role">
+    	insert into role (rolename) values(#{rolename}) 
+    </insert>
+    <insert id="addRolePermission" useGeneratedKeys="true" keyProperty="rpid" parameterType="po.Role_permission">
+    	insert into role_permission(roleid,permissionid)
+    	values (#{role.rid},#{permission.pid})
+    </insert>
+    <delete id="deleterole" parameterType="po.Role">
+    	delete from role where rid=#{rid}
+    </delete>
+    <delete id="deleterole_permission" parameterType="int">
+    	delete from role_permission where roleid=#{roleid}
+    </delete>
+    <delete id="deleteuser_role" parameterType="int">
+    	delete from user_role where roleid=#{roleid}
+    </delete>
+    <select id="getRolebyid" parameterType="int" resultMap="roleMap">
+    	select * from role left join role_permission on role.rid=role_permission.roleid left join permission 
+    	on role_permission.permissionid=permission.pid where role.rid=#{rid}
+    </select>
+</mapper>

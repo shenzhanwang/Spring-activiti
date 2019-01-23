@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.LoginMapper">
+	<resultMap type="po.User" id="userMap">
+        <id column="id" property="id" ></id>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="tel" property="tel" />
+        <result column="age" property="age" />
+    </resultMap>
+    <select id="getpwdbyname" parameterType="String"  resultMap="userMap">
+    	select * from user where username=#{name}
+    </select>
+    
+    
+</mapper>

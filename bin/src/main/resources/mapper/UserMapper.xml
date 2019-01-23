@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mapper.UserMapper">
+<!-- 多对多关系映射，使用1对多和多对1嵌套实现，注意映射关系的三张表的主键名称要不相同（uid,rid,urid），否则只能查到1条记录 -->
+	<resultMap type="po.User" id="userMap">
+        <id column="uid" property="uid" ></id>
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="tel" property="tel" />
+        <result column="age" property="age" />
+        <collection property="user_roles" column="userid" ofType="po.User_role">  
+            <id property="urid" column="urid" />
+            <association column="roleid" property="role" javaType="po.Role">
+	        	<id column="rid" property="rid"></id>
+	        	<result column="rolename" property="rolename"/>
+        	</association>  
+        </collection>
+    </resultMap>
+    <select id="getusers" resultMap="userMap">
+    	select * from user order by uid
+    </select>
+    
+    <select id="getUserByid" resultMap="userMap">
+    	select * from user left join user_role on user.uid=user_role.userid left join 
+    	role on user_role.roleid=role.rid where user.uid=#{uid}
+    </select>
+    
+    <delete id="deleteuser" parameterType="int">
+    	delete from user where user.uid=#{uid}
+    </delete>
+    
+    <delete id="deleteuserrole" parameterType="int">
+    	delete from user_role where user_role.userid=#{uid}
+    </delete>
+    
+    <insert id="adduser" useGeneratedKeys="true" keyProperty="uid" parameterType="po.User">
+    	 insert into user (username,password,tel,age)
+	  	 values (#{username},'1234',#{tel},#{age})
+    </insert>
+    
+    <update id="updateuser" parameterType="po.User">
+    	update user set
+    		tel=#{tel},age=#{age}
+    	where user.uid=#{uid}
+    </update>
+    <select id="getUidByusername" resultType="int" parameterType="String">
+    	select uid from user where username=#{username} 
+    </select>
+</mapper>
