@@ -1,0 +1,92 @@
+<script src="./js/useradmin.js"></script>  
+     <!--Start Breadcrumb-->
+<div class="row">
+	<div id="breadcrumb" class="col-xs-12">
+	<a href="#" class="show-sidebar">
+						  <i class="fa fa-bars"></i>
+						</a>
+		<ol class="breadcrumb pull-left">
+			<li><a href="index">首页</a></li>
+			<li><a href="#">系统管理</a></li>
+			<li><a href="#">用户管理</a></li>
+		</ol>
+	</div>
+</div>       
+            <div class="container-fluid">
+                       <div class="row">
+                    <div class="col-lg-12">
+                    <div class="box ui-draggable ui-droppable">
+				<div class="box-header">
+					<div class="box-name">
+						<i class="fa fa-coffee"></i> <span>用户管理</span>
+					</div>
+					<div class="box-icons">
+						<a class="collapse-link"> <i class="fa fa-chevron-up"></i>
+						</a> <a class="expand-link"> <i class="fa fa-expand"></i>
+						</a> <a class="close-link"> <i class="fa fa-times"></i>
+						</a>
+					</div>
+					<div class="no-move"></div>
+				</div>
+				<div class="box-content">
+				<button id="adduser" type="button" class="btn btn-primary">添加新用户</button>
+					 <table id="grid-data" class="table table-condensed table-hover table-striped">
+							        <thead>
+							            <tr>
+							                <th data-column-id="id" data-identifier="true" data-type="numeric">用户id</th>
+							                <th data-column-id="username">用户名</th>
+							                <th data-column-id="tel">电话</th>
+							                <th data-column-id="age">年龄</th>
+							                <th data-column-id="rolelist">拥有角色</th>
+							                <th data-formatter="commands">操作</th>
+							            </tr>
+							        </thead>
+							    </table>
+                </div>
+                            </div>
+                        </div>
+                    </div>
+</div>
+ 
+<div id="userinfo" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="myModalLabel">编辑用户信息</h4>
+      </div>
+      <form class="form-horizontal" method="post">
+      <div class="modal-body">
+        	<div class="row form-group">
+			    <label for="username" class="col-sm-1 control-label">用户名</label>
+			    <div class="col-sm-11">
+			      <input type="text" name="username" class="form-control" id="username" readonly="readonly"/>
+			    </div>
+        	</div>
+        	<div class="row form-group">
+			    <label for="tel" class="col-sm-1 control-label">电话</label>
+			    <div class="col-sm-11">
+			      <input type="text" name="tel" class="form-control" id="tel"/>
+			    </div>
+        	</div>
+        	<div class="row form-group">
+			    <label for="age" class="col-sm-1 control-label">年龄</label>
+			    <div class="col-sm-11">
+			      <input type="text" name="age" class="form-control" id="age"/>
+			    </div>
+        	</div>
+        	<h4 class="page-header">拥有角色</h4>
+        	<div class="row form-group">
+					<div class="col-sm-12" id="roles">
+					</div>
+			</div>
+			<p>新用户初始密码为1234</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" id="btn" class="btn btn-primary">保存</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

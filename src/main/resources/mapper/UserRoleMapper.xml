@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="mapper.UserRoleMapper">
-  <resultMap id="BaseResultMap" type="po.UserRole">
+<mapper namespace="boot.spring.mapper.UserRoleMapper">
+  <resultMap id="BaseResultMap" type="boot.spring.po.UserRole">
     <id column="urid" jdbcType="INTEGER" property="urid" />
     <result column="userid" jdbcType="INTEGER" property="userid" />
     <result column="roleid" jdbcType="INTEGER" property="roleid" />
@@ -24,13 +24,13 @@
     delete from user_role
     where urid = #{urid,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="po.UserRole">
+  <insert id="insert" parameterType="boot.spring.po.UserRole">
     insert into user_role (urid, userid, roleid
       )
     values (#{urid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, #{roleid,jdbcType=INTEGER}
       )
   </insert>
-  <insert id="insertSelective" parameterType="po.UserRole">
+  <insert id="insertSelective" parameterType="boot.spring.po.UserRole">
     insert into user_role
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="urid != null">
@@ -55,7 +55,7 @@
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="po.UserRole">
+  <update id="updateByPrimaryKeySelective" parameterType="boot.spring.po.UserRole">
     update user_role
     <set>
       <if test="userid != null">
@@ -67,7 +67,7 @@
     </set>
     where urid = #{urid,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="po.UserRole">
+  <update id="updateByPrimaryKey" parameterType="boot.spring.po.UserRole">
     update user_role
     set userid = #{userid,jdbcType=INTEGER},
       roleid = #{roleid,jdbcType=INTEGER}

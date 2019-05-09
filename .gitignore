@@ -3,7 +3,7 @@
 
 .classpath
 .project
-.settings      
+/.settings/      
  ##filter databfile、sln file##
 *.mdb  
 *.ldb  
