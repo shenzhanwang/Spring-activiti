@@ -95,7 +95,7 @@ public class ActivitiController {
 		return "index";
 	}
 	
-	@RequestMapping(value="/getprocesslists",method = RequestMethod.GET)
+	@RequestMapping(value="/getprocesslists",method = RequestMethod.POST)
 	@ResponseBody
 	public DataGrid<Process> getlist(@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
@@ -182,7 +182,7 @@ public class ActivitiController {
 	}
 	
 	@ApiOperation("获取部门领导审批代办列表")
-	@RequestMapping(value="/depttasklist",produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
+	@RequestMapping(value="/depttasklist",produces = {"application/json;charset=UTF-8"},method = RequestMethod.POST)
 	@ResponseBody
 	public DataGrid<LeaveTask> getdepttasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
@@ -245,7 +245,7 @@ public class ActivitiController {
 			}
 	}
 	
-	@RequestMapping(value="/hrtasklist",produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
+	@RequestMapping(value="/hrtasklist",produces = {"application/json;charset=UTF-8"},method = RequestMethod.POST)
 	@ResponseBody
 	public DataGrid<LeaveTask> gethrtasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<LeaveTask> grid=new DataGrid<LeaveTask>();
@@ -308,7 +308,7 @@ public class ActivitiController {
 			}
 	}
 	
-	@RequestMapping(value="/xjtasklist",produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
+	@RequestMapping(value="/xjtasklist",produces = {"application/json;charset=UTF-8"},method = RequestMethod.POST)
 	@ResponseBody
 	public String getXJtasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
@@ -341,7 +341,7 @@ public class ActivitiController {
 	}
 	
 	
-	@RequestMapping(value="/updatetasklist",produces = {"application/json;charset=UTF-8"},method = RequestMethod.GET)
+	@RequestMapping(value="/updatetasklist",produces = {"application/json;charset=UTF-8"},method = RequestMethod.POST)
 	@ResponseBody
 	public String getupdatetasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
@@ -427,7 +427,7 @@ public class ActivitiController {
 		return JSON.toJSONString("success");
 	}
 	
-	@RequestMapping(value="involvedprocess",method = RequestMethod.GET)//参与的正在运行的请假流程
+	@RequestMapping(value="involvedprocess",method = RequestMethod.POST)//参与的正在运行的请假流程
 	@ResponseBody
 	public DataGrid<RunningProcess> allexeution(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
@@ -452,7 +452,7 @@ public class ActivitiController {
 		return grid;
 	}
 	
-	@RequestMapping(value="/getfinishprocess",method = RequestMethod.GET)
+	@RequestMapping(value="/getfinishprocess",method = RequestMethod.POST)
 	@ResponseBody
 	public DataGrid<HistoryProcess> getHistory(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		String userid=(String) session.getAttribute("username");
@@ -532,7 +532,7 @@ public class ActivitiController {
 		return "activiti/myleaves";
 	}
 	
-	@RequestMapping(value="setupprocess",method = RequestMethod.GET)
+	@RequestMapping(value="setupprocess",method = RequestMethod.POST)
 	@ResponseBody
 	public DataGrid<RunningProcess> setupprocess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;

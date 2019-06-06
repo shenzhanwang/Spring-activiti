@@ -19,7 +19,7 @@ public class Login {
 	@Autowired
 	LoginService loginservice;
 	
-	@RequestMapping(value="/loginvalidate",method = RequestMethod.GET)
+	@RequestMapping(value="/loginvalidate",method = RequestMethod.POST)
 	public String loginvalidate(@RequestParam("username") String username,@RequestParam("password") String pwd,HttpSession httpSession){
 		if(username==null)
 			return "login";

@@ -114,7 +114,7 @@ public class PurchaseController {
 		return JSON.toJSONString("sucess");
 	}
 	//我发起的采购流程
-	@RequestMapping(value="mypurchaseprocess",method=RequestMethod.GET)
+	@RequestMapping(value="mypurchaseprocess",method=RequestMethod.POST)
 	@ResponseBody
 	public DataGrid<RunningProcess> mypurchaseprocess(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
@@ -157,7 +157,7 @@ public class PurchaseController {
 		return "purchase/mypurchase";
 	}
 	
-	@RequestMapping(value="/puchasemanagertasklist",method=RequestMethod.GET)
+	@RequestMapping(value="/puchasemanagertasklist",method=RequestMethod.POST)
 	@ResponseBody
 	DataGrid<PurchaseTask> puchasemanagertasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<PurchaseTask> grid=new DataGrid<PurchaseTask>();
@@ -222,7 +222,7 @@ public class PurchaseController {
 		return new MSG("ok");
 	}
 	
-	@RequestMapping(value="updatepurchaseapply",method=RequestMethod.GET)
+	@RequestMapping(value="updatepurchaseapply",method=RequestMethod.POST)
 	@ResponseBody
 	public DataGrid<PurchaseTask> updateapply(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
@@ -280,7 +280,7 @@ public class PurchaseController {
 		return new MSG("ok");
 	}
 	
-	@RequestMapping(value="getfinishpurchaseprocess",method=RequestMethod.GET)
+	@RequestMapping(value="getfinishpurchaseprocess",method=RequestMethod.POST)
 	@ResponseBody
 	public DataGrid<HistoryProcess> getHistory(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		String userid=(String) session.getAttribute("username");
@@ -306,7 +306,7 @@ public class PurchaseController {
 		return grid;
 	}
 	
-	@RequestMapping(value="/financetasklist",method=RequestMethod.GET)
+	@RequestMapping(value="/financetasklist",method=RequestMethod.POST)
 	@ResponseBody
 	DataGrid<PurchaseTask> financetasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<PurchaseTask> grid=new DataGrid<PurchaseTask>();
@@ -373,7 +373,7 @@ public class PurchaseController {
 		return new MSG("ok");
 	}
 	
-	@RequestMapping(value="/managertasklist",method=RequestMethod.GET)
+	@RequestMapping(value="/managertasklist",method=RequestMethod.POST)
 	@ResponseBody
 	DataGrid<PurchaseTask> managertasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<PurchaseTask> grid=new DataGrid<PurchaseTask>();
@@ -438,7 +438,7 @@ public class PurchaseController {
 		return new MSG("ok");
 	}
 	
-	@RequestMapping(value="/paytasklist",method=RequestMethod.GET)
+	@RequestMapping(value="/paytasklist",method=RequestMethod.POST)
 	@ResponseBody
 	DataGrid<PurchaseTask> paytasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		DataGrid<PurchaseTask> grid=new DataGrid<PurchaseTask>();
@@ -501,7 +501,7 @@ public class PurchaseController {
 	}
 	
 	
-	@RequestMapping(value="/receivetasklist",method=RequestMethod.GET)
+	@RequestMapping(value="/receivetasklist",method=RequestMethod.POST)
 	@ResponseBody
 	DataGrid<PurchaseTask> receivetasklist(HttpSession session,@RequestParam("current") int current,@RequestParam("rowCount") int rowCount){
 		int firstrow=(current-1)*rowCount;
