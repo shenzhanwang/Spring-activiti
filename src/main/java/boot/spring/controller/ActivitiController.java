@@ -82,7 +82,7 @@ public class ActivitiController {
 		return "activiti/processlist";
 	}
 	
-	@RequestMapping(value="/uploadworkflow",method = RequestMethod.GET)
+	@RequestMapping(value="/uploadworkflow",method = RequestMethod.POST)
 	public String fileupload(@RequestParam MultipartFile uploadfile,HttpServletRequest request){
 		try{
 			MultipartFile file=uploadfile;
@@ -130,7 +130,7 @@ public class ActivitiController {
 		IOUtils.copy(is, output);
 	}
 	
-	@RequestMapping(value="/deletedeploy",method = RequestMethod.GET)
+	@RequestMapping(value="/deletedeploy",method = RequestMethod.POST)
 	public String deletedeploy(@RequestParam("deployid") String deployid) throws Exception{
 		rep.deleteDeployment(deployid,true);
 		return "activiti/processlist";
@@ -373,7 +373,7 @@ public class ActivitiController {
 		return JSON.toJSONString(grid);
 	}
 	
-	@RequestMapping(value="/dealtask",method = RequestMethod.GET)
+	@RequestMapping(value="/dealtask",method = RequestMethod.POST)
 	@ResponseBody
 	public String taskdeal(@RequestParam("taskid") String taskid,HttpServletResponse response){
 		Task task=taskservice.createTaskQuery().taskId(taskid).singleResult();
@@ -387,7 +387,7 @@ public class ActivitiController {
 		return "/activiti/task-deptleaderaudit";
 	}
 	
-	@RequestMapping(value="/task/deptcomplete/{taskid}",method = RequestMethod.GET)
+	@RequestMapping(value="/task/deptcomplete/{taskid}",method = RequestMethod.POST)
 	@ResponseBody
 	public String deptcomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");
@@ -399,7 +399,7 @@ public class ActivitiController {
 		return JSON.toJSONString("success");
 	}
 	
-	@RequestMapping(value="/task/hrcomplete/{taskid}",method = RequestMethod.GET)
+	@RequestMapping(value="/task/hrcomplete/{taskid}",method = RequestMethod.POST)
 	@ResponseBody
 	public String hrcomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");
@@ -411,7 +411,7 @@ public class ActivitiController {
 		return JSON.toJSONString("success");
 	}
 	
-	@RequestMapping(value="/task/reportcomplete/{taskid}",method = RequestMethod.GET)
+	@RequestMapping(value="/task/reportcomplete/{taskid}",method = RequestMethod.POST)
 	@ResponseBody
 	public String reportbackcomplete(@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String realstart_time=req.getParameter("realstart_time");
@@ -420,7 +420,7 @@ public class ActivitiController {
 		return JSON.toJSONString("success");
 	}
 	
-	@RequestMapping(value="/task/updatecomplete/{taskid}",method = RequestMethod.GET)
+	@RequestMapping(value="/task/updatecomplete/{taskid}",method = RequestMethod.POST)
 	@ResponseBody
 	public String updatecomplete(@PathVariable("taskid") String taskid,@ModelAttribute("leave") LeaveApply leave,@RequestParam("reapply") String reapply){
 		leaveservice.updatecomplete(taskid,leave,reapply);
@@ -485,14 +485,14 @@ public class ActivitiController {
 	}
 	
 	
-	@RequestMapping(value="/processinfo",method = RequestMethod.GET)
+	@RequestMapping(value="/processinfo",method = RequestMethod.POST)
 	@ResponseBody
 	public List<HistoricActivityInstance> processinfo(@RequestParam("instanceid")String instanceid){
 		  List<HistoricActivityInstance> his = histiryservice.createHistoricActivityInstanceQuery().processInstanceId(instanceid).orderByHistoricActivityInstanceStartTime().asc().list();
 		  return his;
 	}
 	
-	@RequestMapping(value="/processhis",method = RequestMethod.GET)
+	@RequestMapping(value="/processhis",method = RequestMethod.POST)
 	@ResponseBody
 	public List<HistoricActivityInstance> processhis(@RequestParam("ywh")String ywh){
 		  String instanceid=histiryservice.createHistoricProcessInstanceQuery().processDefinitionKey("purchase").processInstanceBusinessKey(ywh).singleResult().getId();

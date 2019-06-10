@@ -1,5 +1,6 @@
 package boot.spring.po;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import org.activiti.engine.task.Task;
@@ -7,7 +8,7 @@ import org.activiti.engine.task.Task;
 public class PurchaseApply {
 	int id;
 	String itemlist;
-	float total;
+	BigDecimal total;
 	Date applytime;
 	String applyer;
 	Task task;
@@ -23,10 +24,11 @@ public class PurchaseApply {
 	public void setItemlist(String itemlist) {
 		this.itemlist = itemlist;
 	}
-	public float getTotal() {
+	
+	public BigDecimal getTotal() {
 		return total;
 	}
-	public void setTotal(float total) {
+	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
 	public Date getApplytime() {

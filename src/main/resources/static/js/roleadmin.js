@@ -113,7 +113,7 @@
 	    			alert("必须选择至少选择一个权限");
 	    			return false;
 	    		}
-	    		$.post("addrole",$("form").serialize(),function(){
+	    		$.get("/addrole",$("form").serialize(),function(){
 	    			$("#roleinfo").modal('hide');
 	    			alert("添加成功");
 	    			LoadAjaxContent("roleadmin");

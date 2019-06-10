@@ -1,5 +1,6 @@
 package boot.spring.controller;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -98,9 +99,9 @@ public class PurchaseController {
 		return "purchase/receiveitem";
 	}
 	
-	@RequestMapping(value="startpurchase",method=RequestMethod.GET)
+	@RequestMapping(value="startpurchase",method=RequestMethod.POST)
 	@ResponseBody
-	String startpurchase(@RequestParam("itemlist")String itemlist,@RequestParam("total")float total,HttpSession session){
+	String startpurchase(@RequestParam("itemlist")String itemlist,@RequestParam("total")BigDecimal total,HttpSession session){
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String, Object>();
 		variables.put("starter", userid);
@@ -210,7 +211,7 @@ public class PurchaseController {
 		return grid;
 	}
 	
-	@RequestMapping(value="task/purchasemanagercomplete/{taskid}",method=RequestMethod.GET)
+	@RequestMapping(value="task/purchasemanagercomplete/{taskid}",method=RequestMethod.POST)
 	@ResponseBody
 	public MSG purchasemanagercomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String purchaseauditi=req.getParameter("purchaseauditi");
@@ -256,7 +257,7 @@ public class PurchaseController {
 		return grid;
 	}
 	
-	@RequestMapping(value="task/updateapplycomplete/{taskid}",method=RequestMethod.GET)
+	@RequestMapping(value="task/updateapplycomplete/{taskid}",method=RequestMethod.POST)
 	@ResponseBody
 	public MSG updateapplycomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String updateapply=req.getParameter("updateapply");
@@ -270,7 +271,7 @@ public class PurchaseController {
 			String businesskey=ins.getBusinessKey();
 			PurchaseApply p=purchaseservice.getPurchase(Integer.parseInt(businesskey));
 			p.setItemlist(itemlist);
-			p.setTotal(Float.parseFloat(total));
+			p.setTotal(new BigDecimal(Integer.parseInt(total)));
 			purchaseservice.updatePurchase(p);
 		}
 		Map<String,Object> variables=new HashMap<String,Object>();
@@ -359,7 +360,7 @@ public class PurchaseController {
 		return grid;
 	}
 	
-	@RequestMapping(value="task/financecomplete/{taskid}",method=RequestMethod.GET)
+	@RequestMapping(value="task/financecomplete/{taskid}",method=RequestMethod.POST)
 	@ResponseBody
 	public MSG financecomplete(HttpSession session,@RequestParam("total")String total,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String finance=req.getParameter("finance");
@@ -426,7 +427,7 @@ public class PurchaseController {
 		return grid;
 	}
 	
-	@RequestMapping(value="task/managercomplete/{taskid}",method=RequestMethod.GET)
+	@RequestMapping(value="task/managercomplete/{taskid}",method=RequestMethod.POST)
 	@ResponseBody
 	public MSG managercomplete(HttpSession session,@RequestParam("total")String total,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String manager=req.getParameter("manager");
@@ -491,7 +492,7 @@ public class PurchaseController {
 		return grid;
 	}
 	
-	@RequestMapping(value="task/paycomplete/{taskid}",method=RequestMethod.GET)
+	@RequestMapping(value="task/paycomplete/{taskid}",method=RequestMethod.POST)
 	@ResponseBody
 	public MSG paycomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");
@@ -535,7 +536,7 @@ public class PurchaseController {
 		return grid;
 	}
 	
-	@RequestMapping(value="task/receivecomplete/{taskid}",method=RequestMethod.GET)
+	@RequestMapping(value="task/receivecomplete/{taskid}",method=RequestMethod.POST)
 	@ResponseBody
 	public MSG receivecomplete(HttpSession session,@PathVariable("taskid") String taskid,HttpServletRequest req){
 		String userid=(String) session.getAttribute("username");

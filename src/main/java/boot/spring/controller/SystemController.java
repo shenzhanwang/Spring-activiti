@@ -109,7 +109,7 @@ public class SystemController {
 		return "system/useradmin";
 	}
 	
-	@RequestMapping(value="/adduser",method=RequestMethod.POST)
+	@RequestMapping(value="/adduser",method=RequestMethod.GET)
 	String adduser(@ModelAttribute("user")User user,@RequestParam(value="rolename[]",required = false)String[] rolename){
 		if(rolename==null)
 			systemservice.adduser(user);
@@ -131,7 +131,7 @@ public class SystemController {
 		return systemservice.getPermisions();
 	}
 	
-	@RequestMapping(value="addrole",method=RequestMethod.POST)
+	@RequestMapping(value="/addrole",method=RequestMethod.GET)
 	String addrole(@RequestParam("rolename") String rolename,@RequestParam(value="permissionname[]")String[] permissionname){
 		Role r=new Role();
 		r.setRolename(rolename);

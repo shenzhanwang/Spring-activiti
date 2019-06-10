@@ -1,12 +1,13 @@
 package boot.spring.pagemodel;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class PurchaseTask {
 	int bussinesskey;
 	String applyer;
 	String itemlist;
-	float total;
+	BigDecimal total;
 	Date applytime;
 	String taskid;
 	String taskname;
@@ -30,10 +31,10 @@ public class PurchaseTask {
 	public void setItemlist(String itemlist) {
 		this.itemlist = itemlist;
 	}
-	public float getTotal() {
+	public BigDecimal getTotal() {
 		return total;
 	}
-	public void setTotal(float total) {
+	public void setTotal(BigDecimal total) {
 		this.total = total;
 	}
 	public Date getApplytime() {

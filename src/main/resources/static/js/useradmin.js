@@ -105,7 +105,7 @@
 	    			alert("年龄不得为空");
 	    			return false;
 	    		}
-	    		$.post("adduser",$("form").serialize(),function(){
+	    		$.get("adduser",$("form").serialize(),function(){
 	    			$("#userinfo").modal('hide');
 	    			alert("添加成功");
 	    			LoadAjaxContent("useradmin");
