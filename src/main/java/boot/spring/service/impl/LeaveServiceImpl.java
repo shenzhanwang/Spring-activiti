@@ -47,7 +47,7 @@ public class LeaveServiceImpl implements LeaveService{
 		System.out.println(businesskey);
 		String instanceid=instance.getId();
 		apply.setProcess_instance_id(instanceid);
-		leavemapper.update(apply);
+		leavemapper.updateByPrimaryKey(apply);
 		return instance;
 	}
 
@@ -58,7 +58,7 @@ public class LeaveServiceImpl implements LeaveService{
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
 			String businesskey=ins.getBusinessKey();
-			LeaveApply a=leavemapper.get(Integer.parseInt(businesskey));
+			LeaveApply a=leavemapper.getLeaveApply(Integer.parseInt(businesskey));
 			a.setTask(task);
 			results.add(a);
 		}
@@ -71,7 +71,7 @@ public class LeaveServiceImpl implements LeaveService{
 	}
 
 	public LeaveApply getleave(int id) {
-		LeaveApply leave=leavemapper.get(id);
+		LeaveApply leave=leavemapper.getLeaveApply(id);
 		return leave;
 	}
 
@@ -82,7 +82,7 @@ public class LeaveServiceImpl implements LeaveService{
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
 			String businesskey=ins.getBusinessKey();
-			LeaveApply a=leavemapper.get(Integer.parseInt(businesskey));
+			LeaveApply a=leavemapper.getLeaveApply(Integer.parseInt(businesskey));
 			a.setTask(task);
 			results.add(a);
 		}
@@ -101,7 +101,7 @@ public class LeaveServiceImpl implements LeaveService{
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
 			String businesskey=ins.getBusinessKey();
-			LeaveApply a=leavemapper.get(Integer.parseInt(businesskey));
+			LeaveApply a=leavemapper.getLeaveApply(Integer.parseInt(businesskey));
 			a.setTask(task);
 			results.add(a);
 		}
@@ -120,7 +120,7 @@ public class LeaveServiceImpl implements LeaveService{
 			String instanceid=task.getProcessInstanceId();
 			ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
 			String businesskey=ins.getBusinessKey();
-			LeaveApply a=leavemapper.get(Integer.parseInt(businesskey));
+			LeaveApply a=leavemapper.getLeaveApply(Integer.parseInt(businesskey));
 			a.setTask(task);
 			results.add(a);
 		}
@@ -137,10 +137,10 @@ public class LeaveServiceImpl implements LeaveService{
 		String instanceid=task.getProcessInstanceId();
 		ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
 		String businesskey=ins.getBusinessKey();
-		LeaveApply a=leavemapper.get(Integer.parseInt(businesskey));
+		LeaveApply a=leavemapper.getLeaveApply(Integer.parseInt(businesskey));
 		a.setReality_start_time(realstart_time);
 		a.setReality_end_time(realend_time);
-		leavemapper.update(a);
+		leavemapper.updateByPrimaryKey(a);
 		taskservice.complete(taskid);
 	}
 
@@ -149,7 +149,7 @@ public class LeaveServiceImpl implements LeaveService{
 		String instanceid=task.getProcessInstanceId();
 		ProcessInstance ins=runtimeservice.createProcessInstanceQuery().processInstanceId(instanceid).singleResult();
 		String businesskey=ins.getBusinessKey();
-		LeaveApply a=leavemapper.get(Integer.parseInt(businesskey));
+		LeaveApply a=leavemapper.getLeaveApply(Integer.parseInt(businesskey));
 		a.setLeave_type(leave.getLeave_type());
 		a.setStart_time(leave.getStart_time());
 		a.setEnd_time(leave.getEnd_time());
@@ -157,7 +157,7 @@ public class LeaveServiceImpl implements LeaveService{
 		Map<String,Object> variables=new HashMap<String,Object>();
 		variables.put("reapply", reapply);
 		if(reapply.equals("true")){
-			leavemapper.update(a);
+			leavemapper.updateByPrimaryKey(a);
 			taskservice.complete(taskid,variables);
 		}else
 			taskservice.complete(taskid,variables);

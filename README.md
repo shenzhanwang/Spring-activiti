@@ -32,7 +32,7 @@ mvn clean install
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081810_cbd63187_1110335.jpeg "在这里输入图片标题")
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081820_97a18226_1110335.jpeg "在这里输入图片标题")
 ![输入图片说明](http://git.oschina.net/uploads/images/2016/1116/081830_8767776b_1110335.jpeg "在这里输入图片标题")
-
+![输入图片说明](https://images.gitee.com/uploads/images/2019/0617/165026_02c8a626_1110335.png "QQ截图20190617164951.png")
 ### 附录：个人作品索引目录（持续更新）
 
 #### 基础篇:职业化，从做好OA系统开始

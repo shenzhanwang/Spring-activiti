@@ -10,13 +10,9 @@ public interface UserRoleMapper {
 
     int insert(UserRole record);
 
-    int insertSelective(UserRole record);
-
     UserRole selectByPrimaryKey(Integer urid);
 
     int updateByPrimaryKeySelective(UserRole record);
 
-    int updateByPrimaryKey(UserRole record);
-    
     List<UserRole> listUserRoleByUid(int uid);
 }

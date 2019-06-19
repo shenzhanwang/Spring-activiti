@@ -41,11 +41,25 @@
 	  	 values (#{username},'1234',#{tel},#{age})
     </insert>
     
-    <update id="updateuser" parameterType="boot.spring.po.User">
-    	update user set
-    		tel=#{tel},age=#{age}
-    	where user.uid=#{uid}
+    <update id="updateByPrimaryKeySelective" parameterType="boot.spring.po.User">
+    	update user
+		    <set>
+		      <if test="username != null">
+		        username = #{username,jdbcType=VARCHAR},
+		      </if>
+		      <if test="password != null">
+		        password = #{password,jdbcType=VARCHAR},
+		      </if>
+		      <if test="tel != null">
+		        tel = #{tel,jdbcType=VARCHAR},
+		      </if>
+		      <if test="age != null">
+		        age = #{age,jdbcType=INTEGER},
+		      </if>
+		    </set>
+		    where uid = #{uid,jdbcType=INTEGER}
     </update>
+    
     <select id="getUidByusername" resultType="int" parameterType="String">
     	select uid from user where username=#{username} 
     </select>

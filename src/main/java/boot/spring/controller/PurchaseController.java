@@ -101,7 +101,7 @@ public class PurchaseController {
 	
 	@RequestMapping(value="startpurchase",method=RequestMethod.POST)
 	@ResponseBody
-	String startpurchase(@RequestParam("itemlist")String itemlist,@RequestParam("total")BigDecimal total,HttpSession session){
+	MSG startpurchase(@RequestParam("itemlist")String itemlist,@RequestParam("total")BigDecimal total,HttpSession session){
 		String userid=(String) session.getAttribute("username");
 		Map<String,Object> variables=new HashMap<String, Object>();
 		variables.put("starter", userid);
@@ -112,7 +112,7 @@ public class PurchaseController {
 		purchase.setApplytime(new Date());
 		ProcessInstance ins=purchaseservice.startWorkflow(purchase, userid, variables);
 		System.out.println("流程id"+ins.getId()+"已启动");
-		return JSON.toJSONString("sucess");
+		return new MSG("sucess");
 	}
 	//我发起的采购流程
 	@RequestMapping(value="mypurchaseprocess",method=RequestMethod.POST)

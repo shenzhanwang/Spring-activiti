@@ -115,7 +115,7 @@ public class SystemController {
 			systemservice.adduser(user);
 		else
 			systemservice.adduser(user, rolename);
-		return "forward:/useradmin";
+		return "system/useradmin";
 	}
 	
 	@RequestMapping(value="/updateuser/{uid}",method=RequestMethod.POST)
@@ -136,7 +136,7 @@ public class SystemController {
 		Role r=new Role();
 		r.setRolename(rolename);
 		systemservice.addrole(r, permissionname);
-		return "forward:/roleadmin";
+		return "system/roleadmin";
 	}
 	
 	@RequestMapping(value="/deleterole/{rid}",method=RequestMethod.GET)

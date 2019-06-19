@@ -25,7 +25,7 @@
 	    	    {
 	    	    	var taskid=$(this).data("row-id");
 	    	    	$.post("dealtask",{"taskid":taskid},function(data){
-	    	    		var obj = JSON.parse(data);
+	    	    		var obj = data;
 	    	    		$("#reason").val(obj.reason);
 	    	    		$("#type").val(obj.leave_type);
 	    	    		$("#userid").val(obj.user_id);

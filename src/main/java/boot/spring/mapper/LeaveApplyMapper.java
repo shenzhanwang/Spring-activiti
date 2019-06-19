@@ -4,6 +4,8 @@ import boot.spring.po.LeaveApply;
 
 public interface LeaveApplyMapper {
 	void save(LeaveApply apply);
-	LeaveApply get(int id);
-	void update(LeaveApply app);
+
+	LeaveApply getLeaveApply(int id);
+
+	int updateByPrimaryKey(LeaveApply record);
 }

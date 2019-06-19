@@ -38,11 +38,11 @@ public class PurchaseServiceImpl implements PurchaseService{
 	}
 
 	public PurchaseApply getPurchase(int id) {
-		return purchasemapper.get(id);
+		return purchasemapper.getPurchaseApply(id);
 	}
 
 	public void updatePurchase(PurchaseApply a) {
-		purchasemapper.update(a);
+		purchasemapper.updateByPrimaryKeySelective(a);
 	}
 
 }

@@ -10,6 +10,7 @@
         <result column="tel" property="tel" />
         <result column="age" property="age" />
     </resultMap>
+    
     <select id="getpwdbyname" parameterType="String"  resultMap="userMap">
     	select * from user where username=#{name}
     </select>
