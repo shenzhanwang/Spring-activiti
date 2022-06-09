@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.MeetingMapper">
+    
+    <resultMap type="Meeting" id="MeetingResult">
+        <result property="id"    column="id"    />
+        <result property="topic"    column="topic"    />
+        <result property="host"    column="host"    />
+        <result property="place"    column="place"    />
+        <result property="peoplelist"    column="peoplelist"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="content"    column="content"    />
+    </resultMap>
+
+    <sql id="selectMeetingVo">
+        select id, topic, host, place, peoplelist, start_time, end_time, content from meeting
+    </sql>
+
+    <select id="selectMeetingList" parameterType="Meeting" resultMap="MeetingResult">
+        <include refid="selectMeetingVo"/>
+        <where>  
+            <if test="topic != null  and topic != ''"> and topic = #{topic}</if>
+            <if test="host != null  and host != ''"> and host = #{host}</if>
+            <if test="place != null  and place != ''"> and place = #{place}</if>
+            <if test="peoplelist != null  and peoplelist != ''"> and peoplelist like concat('%', #{peoplelist}, '%')</if>
+            <if test="content != null  and content != ''"> and content = #{content}</if>
+        </where>
+    </select>
+    
+    <select id="selectMeetingById" parameterType="Long" resultMap="MeetingResult">
+        <include refid="selectMeetingVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertMeeting" parameterType="Meeting" useGeneratedKeys="true" keyProperty="id">
+        insert into meeting
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="topic != null">topic,</if>
+            <if test="host != null">host,</if>
+            <if test="place != null">place,</if>
+            <if test="peoplelist != null">peoplelist,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="content != null">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="topic != null">#{topic},</if>
+            <if test="host != null">#{host},</if>
+            <if test="place != null">#{place},</if>
+            <if test="peoplelist != null">#{peoplelist},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="content != null">#{content},</if>
+         </trim>
+    </insert>
+
+    <update id="updateMeeting" parameterType="Meeting">
+        update meeting
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="topic != null">topic = #{topic},</if>
+            <if test="host != null">host = #{host},</if>
+            <if test="place != null">place = #{place},</if>
+            <if test="peoplelist != null">peoplelist = #{peoplelist},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="content != null">content = #{content},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteMeetingById" parameterType="Long">
+        delete from meeting where id = #{id}
+    </delete>
+
+    <delete id="deleteMeetingByIds" parameterType="String">
+        delete from meeting where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

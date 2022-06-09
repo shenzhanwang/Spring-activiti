@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('会议签到')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: select2-css" />
+</head>
+<body class="white-bg">
+<div class="col-sm-8">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-meeting-add">
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">会议主题：</label>
+                <div class="col-sm-8">
+                    <input name="topic" class="form-control" type="text" th:value="${apply.topic}" readonly>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">主持人：</label>
+                <div class="col-sm-8">
+                    <input name="host" class="form-control" type="text" th:value="${apply.host}" readonly>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">会议地址：</label>
+                <div class="col-sm-8">
+                    <input name="place" class="form-control" type="text" th:value="${apply.place}" readonly>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">参会人员：</label>
+                <div class="col-xs-8">
+                    <input name="place" class="form-control" type="text" th:value="${apply.peoplelist}" readonly>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">开始时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="startTime" class="form-control" type="text"
+                               th:value="${startTime}" readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">结束时间：</label>
+                <div class="col-sm-8">
+                    <div class="input-group date">
+                        <input name="endTime" class="form-control" type="text"
+                               th:value="${endTime}"  readonly>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">会议纪要：</label>
+                <div class="col-sm-8">
+                    <textarea rows="10" id="content" name="content" class="form-control" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-3 col-sm-offset-3">
+                    <input type="hidden"  name="taskid" id="taskid" th:value="${taskid}">
+                    <input type="hidden"  name="id" id="id" th:value="${apply.id}">
+                    <button class="btn btn-primary" onclick="submitHandler()" type="button"><i class="fa fa-check"></i>&nbsp;提交</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="ibox-content" class="col-sm-4">
+    <div id="vertical-timeline" class="vertical-container dark-timeline">
+    </div>
+</div>
+</body>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <th:block th:include="include :: select2-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "task/manage";
+        $("#form-meeting-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            var taskid = $("#taskid").val();
+            var id = $("#id").val();
+            var content = $("#content").val();
+            $.operate.save("edit", {"id": id, "content": content});
+            var json = {};
+            $.ajax({
+                url : prefix + "/completeTask/" + taskid,
+                type : "POST",
+                data : JSON.stringify(json), //转JSON字符串
+                dataType: 'json',
+                contentType:'application/json;charset=UTF-8', //contentType很重要
+                success : function(result) {
+                    $.modal.msg("办理成功");
+                    const parent = window.parent;
+                    // 我的待办
+                    const myToDoIframe = parent.document.querySelector("iframe[src='/task/manage/mytask']");
+                    // 我的全部待办
+                    const myAllToDoIframe = parent.document.querySelector("iframe[src='/task/manage/alltasks']");
+                    myToDoIframe && myToDoIframe.contentWindow.location.reload(true);
+                    myAllToDoIframe && myAllToDoIframe.contentWindow.location.reload(true);
+                    $.modal.closeTab();
+                }
+            });
+        }
+
+        $(document).ready(function(){
+            // 获取时间轴
+            $.get(prefix + "/history/" + $("#taskid").val(), function(data){
+                for (var a = 0; a < data.length ; a++) {
+                    $("#vertical-timeline").append("<div class=\"vertical-timeline-block\"><div class=\"vertical-timeline-icon lazur-bg\">" +
+                        "<i class=\"fa fa-briefcase\"></i></div>" +
+                        "<div class=\"vertical-timeline-content\">" +
+                        "<span class=\"vertical-date\">开始 <small>" + data[a].startTime + "</small></span><br>" +
+                        "<h2><b>" + data[a].assignee + ":</b>" + data[a].taskName + "</h2>" +
+                        "<p>" + (data[a].comment || "-") + "</p>" +
+                        "<span class=\"vertical-date\">结束 <small>" + (data[a].endTime || "-") + "</small></span>" +
+                        "</div>" +
+                        "</div>");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

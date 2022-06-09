@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增采购')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-purchase-add">
+            <div class="form-group">
+                <label class="col-sm-3 control-label is-required">采购清单：</label>
+                <div class="col-sm-8">
+                    <textarea rows="10" name="itemlist" class="form-control" required></textarea>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label is-required">总价：</label>
+                <div class="col-sm-8">
+                    <input name="total" class="form-control" type="text" required>
+                </div>
+            </div>
+            <div class="form-group">    
+                <label class="col-sm-3 control-label">申请人：</label>
+                <div class="col-sm-8">
+                    <input name="applyer" class="form-control" type="text" th:value="${user.loginName}" readonly>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">采购经理：</label>
+                <div class="col-xs-8">
+                    <select id="post" class="form-control" name="purchasemanager">
+                        <option th:each="ul:${userlist}" th:value="${ul.loginName}" th:text="${ul.userName}" th:disabled="${ul.status == '1'}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">财务：</label>
+                <div class="col-xs-8">
+                    <select id="post" class="form-control" name="finance">
+                        <option th:each="ul:${userlist}" th:value="${ul.loginName}" th:text="${ul.userName}" th:disabled="${ul.status == '1'}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">出纳：</label>
+                <div class="col-xs-8">
+                    <select id="post" class="form-control" name="pay">
+                        <option th:each="ul:${userlist}" th:value="${ul.loginName}" th:text="${ul.userName}" th:disabled="${ul.status == '1'}"></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">总经理：</label>
+                <div class="col-xs-8">
+                    <select id="post" class="form-control" name="manager">
+                        <option th:each="ul:${userlist}" th:value="${ul.loginName}" th:text="${ul.userName}" th:disabled="${ul.status == '1'}"></option>
+                    </select>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "purchase"
+        $("#form-purchase-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-purchase-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.PurchaseMapper">
+    
+    <resultMap type="Purchase" id="PurchaseResult">
+        <result property="id"    column="id"    />
+        <result property="itemlist"    column="itemlist"    />
+        <result property="total"    column="total"    />
+        <result property="applytime"    column="applytime"    />
+        <result property="applyer"    column="applyer"    />
+    </resultMap>
+
+    <sql id="selectPurchaseVo">
+        select id, itemlist, total, applytime, applyer from purchase
+    </sql>
+
+    <select id="selectPurchaseList" parameterType="Purchase" resultMap="PurchaseResult">
+        <include refid="selectPurchaseVo"/>
+        <where>  
+            <if test="itemlist != null  and itemlist != ''"> and itemlist = #{itemlist}</if>
+            <if test="total != null  and total != ''"> and total = #{total}</if>
+            <if test="params.beginApplytime != null and params.beginApplytime != '' and params.endApplytime != null and params.endApplytime != ''"> and applytime between #{params.beginApplytime} and #{params.endApplytime}</if>
+            <if test="applyer != null  and applyer != ''"> and applyer = #{applyer}</if>
+        </where>
+    </select>
+    
+    <select id="selectPurchaseById" parameterType="Long" resultMap="PurchaseResult">
+        <include refid="selectPurchaseVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertPurchase" parameterType="Purchase" useGeneratedKeys="true" keyProperty="id">
+        insert into purchase
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="itemlist != null and itemlist != ''">itemlist,</if>
+            <if test="total != null and total != ''">total,</if>
+            <if test="applytime != null">applytime,</if>
+            <if test="applyer != null">applyer,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="itemlist != null and itemlist != ''">#{itemlist},</if>
+            <if test="total != null and total != ''">#{total},</if>
+            <if test="applytime != null">#{applytime},</if>
+            <if test="applyer != null">#{applyer},</if>
+         </trim>
+    </insert>
+
+    <update id="updatePurchase" parameterType="Purchase">
+        update purchase
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="itemlist != null and itemlist != ''">itemlist = #{itemlist},</if>
+            <if test="total != null and total != ''">total = #{total},</if>
+            <if test="applytime != null">applytime = #{applytime},</if>
+            <if test="applyer != null">applyer = #{applyer},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePurchaseById" parameterType="Long">
+        delete from purchase where id = #{id}
+    </delete>
+
+    <delete id="deletePurchaseByIds" parameterType="String">
+        delete from purchase where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

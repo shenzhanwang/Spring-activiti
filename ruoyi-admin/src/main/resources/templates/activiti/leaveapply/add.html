@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增请假')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-leaveapply-add">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">请假人：</label>
+            <div class="col-sm-8">
+                <input name="userId" class="form-control" type="text" th:value="${user.loginName}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">类型：</label>
+            <div class="col-sm-8">
+                <select class="form-control" name="leaveType">
+                    <option value="事假">事假</option>
+                    <option value="病假">病假</option>
+                    <option value="年假">年假</option>
+                    <option value="丧假">丧假</option>
+                    <option value="产假">产假</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">起始时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <input name="startTime" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">结束时间：</label>
+            <div class="col-sm-8">
+                <div class="input-group date">
+                    <input name="endTime" class="form-control" placeholder="yyyy-MM-dd HH:mm:ss" type="text">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">原因：</label>
+            <div class="col-sm-8">
+                <textarea type="text" name="reason" class="form-control" placeholder="请输入文本"></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-xs-3 control-label">部门领导：</label>
+            <div class="col-xs-8">
+                <select id="post" class="form-control" name="deptleader">
+                    <option th:each="ul:${userlist}" th:value="${ul.loginName}" th:text="${ul.userName}" th:disabled="${ul.status == '1'}"></option>
+                </select>
+            </div>
+        </div>
+</div>
+</form>
+</div>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: datetimepicker-js" />
+<script th:inline="javascript">
+    var prefix = ctx + "leaveapply"
+    $("#form-leaveapply-add").validate({
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        if ($.validate.form()) {
+            $.operate.save(prefix + "/add", $('#form-leaveapply-add').serialize());
+        }
+    }
+
+    $("input[name='startTime']").datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        autoclose: true
+    });
+
+    $("input[name='endTime']").datetimepicker({
+        format: "yyyy-mm-dd hh:ii:ss",
+        autoclose: true
+    });
+
+</script>
+</body>
+</html>

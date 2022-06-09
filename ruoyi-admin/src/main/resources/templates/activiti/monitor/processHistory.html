@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('执行历史')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: bootstrap-select-css" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                流程名称：<input type="text" name="name">
+                            </li>
+                            <li>
+                                业务号：<input type="text" name="bussinesskey">
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="process"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "flow/monitor";
+
+        function run(processInstanceId) {
+            $.modal.open("执行记录", prefix + "/historyDetail?processInstanceId=" + processInstanceId);
+        }
+
+        function variables(processInstanceId) {
+            $.modal.open("流程变量", prefix + "/processVariablesDetail?processInstanceId=" + processInstanceId);
+        }
+
+        $(function() {
+            var options = {
+                id: "process",
+                url: prefix + "/listHistoryProcess",
+                modalName: "运行中的流程实例",
+                columns: [{
+                    checkbox: false
+                },
+                    {
+                        field: 'processInstanceId',
+                        title: '流程实例编号',
+                        visible: true
+                    },
+                    {
+                        field: 'businessKey',
+                        title: '业务号'
+                    },
+                    {
+                        field: 'name',
+                        title: '流程名称'
+                    },
+                    {
+                        field: 'currentTask',
+                        title: '当前节点'
+                    },
+                    {
+                        field: 'assignee',
+                        title: '当前处理人'
+                    },
+                    {
+                        field: 'ended',
+                        title: '是否结束',
+                        formatter: function(value, item, index) {
+                            if (item.ended == true)
+                                return '是';
+                            else
+                                return '否';
+                        }
+                    },
+                    {
+                        field: 'startTime',
+                        title: '开始时间'
+                    },
+                    {
+                        field: 'endTime',
+                        title: '结束时间'
+                    },
+                    {
+                        field: 'startUserId',
+                        title: '发起人'
+                    },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="run(\'' + row.processInstanceId + '\')"><i class="fa fa-file-archive-o"></i>查看历史</a>&nbsp;');
+                        actions.push('<a class="btn btn-warning btn-xs" href="javascript:void(0)" onclick="variables(\'' + row.processInstanceId + '\')"><i class="fa fa-gear"></i>查看变量</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

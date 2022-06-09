@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('总经理审批')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+<div class="col-sm-8">
+<div class="wrapper wrapper-content animated fadeInRight ibox-content">
+    <form class="form-horizontal m" id="form-leaveapply-add">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">申请人：</label>
+            <div class="col-sm-8">
+                <input name="applyer" class="form-control" type="text" th:value="${apply.applyer}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">申请时间：</label>
+            <div class="col-sm-8">
+                <input name="applytime" class="form-control" type="text" th:value="${applyTime}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">采购清单：</label>
+            <div class="col-sm-8">
+                <textarea rows="10" name="itemlist" class="form-control" th:utext="${apply.itemlist}" readonly></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">总价：</label>
+            <div class="col-sm-8">
+                <input name="total" class="form-control" type="text" th:value="${apply.total}" readonly>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">审批结果：</label>
+            <div class="col-sm-9">
+                <label class="radio-box">
+                    <input type="radio" checked="" value="true" name="manager">同意</label>
+                <label class="radio-box">
+                    <input type="radio" value="false" name="manager">拒绝</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">审批意见：</label>
+            <div class="col-sm-8">
+                <textarea rows="5" name="comment" class="form-control" required></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-3 col-sm-offset-3">
+                <input type="hidden"  name="taskid" id="taskid" th:value="${taskid}">
+                <button class="btn btn-primary" onclick="submitHandler()" type="button"><i class="fa fa-check"></i>&nbsp;提交</button>
+            </div>
+        </div>
+    </form>
+</div>
+</div>
+<div id="ibox-content" class="col-sm-4">
+    <div id="vertical-timeline" class="vertical-container dark-timeline">
+    </div>
+</div>
+</body>
+<th:block th:include="include :: footer" />
+<th:block th:include="include :: datetimepicker-js" />
+<script th:inline="javascript">
+    var prefix = ctx + "task/manage"
+    $("#form-leaveapply-add").validate({
+        focusCleanup: true
+    });
+
+    function submitHandler() {
+        var taskid = $("#taskid").val();
+        var manager = document.querySelector("input[name='manager']:checked").value;
+        var comment = $("textarea[name=comment]").val();
+        var json = {"manager":manager, "comment": comment};
+        $.ajax({
+            url : prefix + "/completeTask/" + taskid,
+            type : "POST",
+            data : JSON.stringify(json), //转JSON字符串
+            dataType: 'json',
+            contentType:'application/json;charset=UTF-8', //contentType很重要
+            success : function(result) {
+                $.modal.msg("办理成功");
+                const parent = window.parent;
+                // 我的待办
+                const myToDoIframe = parent.document.querySelector("iframe[src='/task/manage/mytask']");
+                // 我的全部待办
+                const myAllToDoIframe = parent.document.querySelector("iframe[src='/task/manage/alltasks']");
+                myToDoIframe && myToDoIframe.contentWindow.location.reload(true);
+                myAllToDoIframe && myAllToDoIframe.contentWindow.location.reload(true);
+                $.modal.closeTab();
+            }
+        });
+    }
+
+    $(document).ready(function(){
+        // 获取时间轴
+        $.get(prefix + "/history/" + $("#taskid").val(), function(data){
+            for (var a = 0; a < data.length ; a++) {
+                $("#vertical-timeline").append("<div class=\"vertical-timeline-block\"><div class=\"vertical-timeline-icon lazur-bg\">" +
+                    "<i class=\"fa fa-briefcase\"></i></div>" +
+                    "<div class=\"vertical-timeline-content\">" +
+                    "<span class=\"vertical-date\">开始 <small>" + data[a].startTime + "</small></span><br>" +
+                    "<h2><b>" + data[a].assignee + ":</b>" + data[a].taskName + "</h2>" +
+                    "<p>" + (data[a].comment || "-") + "</p>" +
+                    "<span class=\"vertical-date\">结束 <small>" + (data[a].endTime || "-") + "</small></span>" +
+                    "</div>" +
+                    "</div>");
+            }
+        });
+    });
+</script>
+</body>
+</html>

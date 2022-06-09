@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('执行历史详情')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: bootstrap-select-css" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 select-table table-striped">
+                <table id="process"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "flow/monitor";
+
+        $(function() {
+
+            var options = {
+                id: "process",
+                url: prefix + "/history/" + [[${processInstanceId}]],
+                modalName: "运行中的流程实例",
+                columns: [{
+                    checkbox: false
+                },
+                {
+                    field: 'processInstanceId',
+                    title: '流程实例编号',
+                    visible: false
+                },
+                {
+                    field: 'taskName',
+                    title: '活动名称'
+                },
+                {
+                    field: 'assignee',
+                    title: '办理人'
+                },
+                {
+                    field: 'comment',
+                    title: '审批意见'
+                },
+                {
+                    field: 'startTime',
+                    title: '开始时间'
+                },
+                {
+                    field: 'endTime',
+                    title: '结束时间'
+                }
+                ]
+            };
+            $.table.init(options);
+        });
+
+        /* 关闭模态框 */
+        function submitHandler() {
+            $.modal.close();
+        }
+    </script>
+</body>
+</html>

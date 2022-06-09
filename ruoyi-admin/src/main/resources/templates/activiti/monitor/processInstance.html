@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('执行实例')" />
+    <th:block th:include="include :: datetimepicker-css" />
+    <th:block th:include="include :: bootstrap-select-css" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                流程名称：<input type="text" name="name">
+                            </li>
+                            <li>
+                                业务号：<input type="text" name="bussinesskey">
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="process"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "flow/monitor";
+
+        function suspend(processInstanceId) {
+            $.operate.get(prefix+"/suspend/"+processInstanceId, function (){
+                $.modal.alert("挂起成功");
+            });
+        }
+
+        function run(processInstanceId) {
+            $.operate.get(prefix+"/run/"+processInstanceId, function (){
+                $.modal.alert("唤醒成功");
+            });
+        }
+
+        $(function() {
+
+            var options = {
+                id: "process",
+                url: prefix + "/listProcess",
+                modalName: "运行中的流程实例",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'processInstanceId',
+                    title: '流程实例编号',
+                    visible: true
+                },
+                {
+                    field: 'businessKey',
+                    title: '业务号'
+                },
+                {
+                    field: 'name',
+                    title: '流程名称'
+                },
+                {
+                    field: 'currentTask',
+                    title: '当前节点'
+                },
+                {
+                    field: 'assignee',
+                    title: '当前处理人'
+                },
+                {
+                    field: 'suspended',
+                    title: '是否挂起',
+                    formatter: function(value, item, index) {
+                        if (item.suspended == true)
+                        return '是';
+                        else
+                        return '否';
+                    }
+                },
+                {
+                    field: 'startTime',
+                    title: '开始时间'
+                },
+                {
+                    field: 'startUserId',
+                    title: '发起人'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-danger btn-xs" target="_blank" href="/flow/monitor/traceProcess/'+row.processInstanceId +  '"><i class="fa fa-area-chart"></i>流程进度</a>&nbsp;');
+                        if (row.suspended == true)
+                        {
+                            actions.push('<a class="btn btn-info btn-xs" href="javascript:void(0)" onclick="run(\'' + row.processInstanceId + '\')"><i class="fa fa-plug"></i>唤醒</a>');
+                        } else {
+                            actions.push('<a class="btn btn-success btn-xs" href="javascript:void(0)" onclick="suspend(\'' + row.processInstanceId + '\')"><i class="fa fa-bolt"></i>挂起</a>');
+                        }
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.LeaveapplyMapper">
+    
+    <resultMap type="Leaveapply" id="LeaveapplyResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="leaveType"    column="leave_type"    />
+        <result property="reason"    column="reason"    />
+        <result property="applyTime"    column="apply_time"    />
+        <result property="realityStartTime"    column="reality_start_time"    />
+        <result property="realityEndTime"    column="reality_end_time"    />
+    </resultMap>
+
+    <sql id="selectLeaveapplyVo">
+        select id, user_id, start_time, end_time, leave_type, reason, apply_time, reality_start_time, reality_end_time from leaveapply
+    </sql>
+
+    <select id="selectLeaveapplyList" parameterType="Leaveapply" resultMap="LeaveapplyResult">
+        <include refid="selectLeaveapplyVo"/>
+        <where>  
+            <if test="leaveType != null  and leaveType != ''"> and leave_type = #{leaveType}</if>
+            <if test="params.beginApplyTime != null and params.beginApplyTime != '' and params.endApplyTime != null and params.endApplyTime != ''"> and apply_time between #{params.beginApplyTime} and #{params.endApplyTime}</if>
+            <if test="userId != null  and userId != ''"> and user_id = #{userId}</if>
+        </where>
+    </select>
+    
+    <select id="selectLeaveapplyById" parameterType="Long" resultMap="LeaveapplyResult">
+        <include refid="selectLeaveapplyVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertLeaveapply" parameterType="Leaveapply" useGeneratedKeys="true" keyProperty="id">
+        insert into leaveapply
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="leaveType != null">leave_type,</if>
+            <if test="reason != null">reason,</if>
+            <if test="applyTime != null">apply_time,</if>
+            <if test="realityStartTime != null">reality_start_time,</if>
+            <if test="realityEndTime != null">reality_end_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="leaveType != null">#{leaveType},</if>
+            <if test="reason != null">#{reason},</if>
+            <if test="applyTime != null">#{applyTime},</if>
+            <if test="realityStartTime != null">#{realityStartTime},</if>
+            <if test="realityEndTime != null">#{realityEndTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateLeaveapply" parameterType="Leaveapply">
+        update leaveapply
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="leaveType != null">leave_type = #{leaveType},</if>
+            <if test="reason != null">reason = #{reason},</if>
+            <if test="applyTime != null">apply_time = #{applyTime},</if>
+            <if test="realityStartTime != null">reality_start_time = #{realityStartTime},</if>
+            <if test="realityEndTime != null">reality_end_time = #{realityEndTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteLeaveapplyById" parameterType="Long">
+        delete from leaveapply where id = #{id}
+    </delete>
+
+    <delete id="deleteLeaveapplyByIds" parameterType="String">
+        delete from leaveapply where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
